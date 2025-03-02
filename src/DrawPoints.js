@@ -14,7 +14,7 @@ class DrawPoints {
 
   prepareOutput() {
     if (!this.run) {
-      return;
+      // return;
     }
     if (this.staticDrawing) {
       this.draw_points();
