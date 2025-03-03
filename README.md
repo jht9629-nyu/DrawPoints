@@ -4,4 +4,4 @@
 
 ## [pages](https://jht9629-nyu.github.io/DrawPoints/src/)
 
-- ?v=1
+- ?v=2
