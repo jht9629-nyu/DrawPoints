@@ -51,7 +51,7 @@ function setup() {
 
   my.canvas.mouseReleased(canvas_mouseReleased);
   my.canvas.touchEnded(canvas_touchEnded);
-  // my.canvas.touchStarted(canvas_touchStarted); // my.version = 14;
+  // my.canvas.touchStarted(canvas_touchStarted);
 }
 
 function mouseDragged() {
