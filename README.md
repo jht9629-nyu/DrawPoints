@@ -6,4 +6,4 @@
 
 - global search and replace to workaround caching in github pages
 
-- ?v=3
+- ?v=4
