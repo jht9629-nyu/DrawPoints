@@ -1,7 +1,9 @@
 # [DrawPoints](https://github.com/jht9629-nyu/DrawPoints)
 
-- using moLib and p5js to view of large heavenly images
+- draw in mobile friendly way
 
 ## [pages](https://jht9629-nyu.github.io/DrawPoints/src/)
 
-- ?v=2
+- global search and replace to workaround caching in github pages
+
+- ?v=3
