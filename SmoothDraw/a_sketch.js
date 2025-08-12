@@ -19,7 +19,7 @@ let pathsMax = 1000;
 let my = {};
 
 function setup() {
-  my.title = '?v=7 Drag mouse to draw smooth Bézier curves';
+  my.title = '?v=8 Drag mouse to draw smooth Bézier curves';
   my.canvas = createCanvas(windowWidth, windowHeight - 100);
 
   colorMode(RGB, 255);
@@ -40,7 +40,7 @@ function setup() {
 
 function draw() {
   // Slight fade effect for trails
-  background(20, 20, 20, 10);
+  // background(20, 20, 20, 10);
 
   autoMode_check();
   //
@@ -214,14 +214,18 @@ function drawBezierPath(points, layer) {
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
-  background(20);
+  // background(20);
+  clearCanvas();
 }
 
 function clearCanvas() {
-  paths = [];
+  // paths = [];
   currentPath = [];
-  background(20);
-  my.layer.background(20);
+  background(0);
+  // !!@ Must remove layer to avoid memory leaks
+  my.layer.remove();
+  my.layer = createGraphics(width, height);
+  my.layer.background(0);
 }
 
 function toggleAutoMode() {
