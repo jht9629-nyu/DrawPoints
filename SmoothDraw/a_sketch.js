@@ -19,11 +19,11 @@ let pathsMax = 1000;
 let my = {};
 
 function setup() {
-  my.title = '?v=9 Drag mouse to draw smooth Bézier curves';
+  my.title = '?v=10 Drag mouse to draw smooth Bézier curves';
   my.canvas = createCanvas(windowWidth, windowHeight - 100);
 
-  colorMode(RGB, 255);
-  background(20);
+  // colorMode(RGB, 255);
+  // background(0);
   // Create all UI elements using p5.js DOM functions
   create_ui();
 
@@ -36,6 +36,9 @@ function setup() {
   lastPoint = { x: width / 2, y: height / 2 };
 
   my.layer = createGraphics(width, height);
+  create_layer();
+  // !!@ my.canvas.noFill does not exist
+  noFill();
 }
 
 function draw() {
@@ -173,7 +176,7 @@ function stop_draw() {
 
 function drawBezierPath(points, layer) {
   if (points.length < 2) return;
-  layer.noFill();
+  // layer.noFill(); // !!@ not available on canvas
   let smoothness = smoothnessValue; // Convert to 0.1-1.0 range
   // For paths with only 2 points, draw a simple line
   if (points.length == 2) {
@@ -227,9 +230,14 @@ function clearCanvas() {
   currentPath = [];
   background(0);
   // !!@ Must remove layer to avoid memory leaks
-  my.layer.remove();
+  create_layer();
+}
+
+function create_layer() {
+  if (my.layer) my.layer.remove();
   my.layer = createGraphics(width, height);
   my.layer.background(0);
+  my.layer.noFill();
 }
 
 function toggleAutoMode() {
