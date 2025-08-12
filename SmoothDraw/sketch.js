@@ -19,8 +19,7 @@ let pathsMax = 1000;
 let my = {};
 
 function setup() {
-  my.title = 'v5.5 Drag mouse to draw smooth Bézier curves';
-
+  my.title = 'v5.6 Drag mouse to draw smooth Bézier curves';
   my.canvas = createCanvas(windowWidth, windowHeight - 200);
 
   lastPoint = { x: width / 2, y: height / 2 };
@@ -34,6 +33,7 @@ function setup() {
   // !!@ p5 docs not correct, must deal with touch events explictly
   my.canvas.touchStarted(canvas_touchStarted);
   my.canvas.touchEnded(canvas_touchEnded);
+  my.frameCount = 0;
 }
 
 function draw() {
@@ -77,7 +77,7 @@ function mouseDragged() {
     draw_to(mouseX, mouseY);
   }
   // return false; // required to prevent touch drag moving canvas on mobile
-  return !onCanvas;
+  return onCanvas ? false : true;
 }
 
 function canvas_touchEnded() {
@@ -91,7 +91,9 @@ function canvas_mouseReleased() {
 }
 
 function mouse_onCanvas() {
-  return mouseX >= 0 && mouseX < width && mouseY >= 0 && mouseY < height;
+  let inX = mouseX >= 0 && mouseX < width;
+  let inY = mouseY >= 0 && mouseY < height;
+  return inX && inY;
 }
 
 function autoMode_check() {
@@ -111,8 +113,8 @@ function autoMode_check() {
 }
 
 function draw_walk() {
-  let x = width * noise(0.005 * frameCount);
-  let y = height * noise(0.005 * frameCount + 10000);
+  let x = width * noise(0.005 * my.frameCount);
+  let y = height * noise(0.005 * my.frameCount + 10000);
   add_point(x, y);
 }
 
@@ -123,11 +125,11 @@ function start_draw(x, y) {
 }
 
 function add_point(x, y) {
+  my.frameCount += 1;
   hueOffset += 1;
   if (isColorful) {
     colorMode(HSB, 360, 100, 100);
     currentColor = color(hueOffset % 360, 80, 90);
-    // currentColor = color((frameCount * 2 + hueOffset) % 360, 80, 90);
   } else {
     colorMode(RGB, 255);
     currentColor = color(255);
@@ -135,7 +137,7 @@ function add_point(x, y) {
   // currentColor = color(hueOffset % 360, 80, 90);
   let strokeColor = currentColor;
   let weight = strokeWeightValue;
-  weight = weight / 4 + weight * noise(0.1 * frameCount + 20000);
+  weight = weight / 4 + weight * noise(0.1 * my.frameCount + 20000);
   lastPoint = { x, y, strokeColor, weight };
   currentPath.push(lastPoint);
   // hueOffset = random(0, 360);
@@ -158,6 +160,7 @@ function stop_draw() {
   }
   isDrawing = false;
   currentPath = [];
+  my.frameCount -= 1;
 }
 
 function drawBezierPath(points) {
@@ -214,12 +217,12 @@ function clearCanvas() {
 
 function toggleAutoMode() {
   isAutoMode = !isAutoMode;
-  autoButton.html('Auto: ' + (isAutoMode ? 'On' : 'Off'));
+  autoButton.html('Auto ' + (isAutoMode ? 'On' : 'Off'));
 }
 
 function toggleColorMode() {
   isColorful = !isColorful;
-  toggleButton.html('Mode: ' + (isColorful ? 'Colorful' : 'White'));
+  toggleButton.html(isColorful ? 'Colorful' : 'White');
 }
 
 function setupUI() {
@@ -260,20 +263,21 @@ function create_buttons() {
     btn.mousePressed(mouseFunc);
   }
 
+  // Full Screen button
+  my.fullScreenButton = createButton('Full');
+  addButton(my.fullScreenButton, fullScreen_action);
+
   // Clear button
-  clearButton = createButton('Clear Canvas');
+  clearButton = createButton('Clear');
   addButton(clearButton, clearCanvas);
 
   // Mode toggle button
-  toggleButton = createButton('Mode: Colorful');
+  toggleButton = createButton('Colorful');
   addButton(toggleButton, toggleColorMode);
 
   // Auto toggle button
-  autoButton = createButton('Auto: --');
+  autoButton = createButton('Auto Off');
   addButton(autoButton, toggleAutoMode);
-
-  my.fullScreenButton = createButton('Full Screen');
-  addButton(my.fullScreenButton, fullScreen_action);
 }
 
 function create_sliders() {
@@ -333,7 +337,11 @@ function fullScreen_action() {
   // my.fullScreenButton.remove();
   // controlsDiv.hide();
   controlsDiv.remove();
-  fullscreen(1);
+  try {
+    fullscreen(1);
+  } catch (err) {
+    console.log('fullscreen err', err);
+  }
   let delay = 3000;
   setTimeout(ui_present_window, delay);
 }
