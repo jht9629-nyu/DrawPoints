@@ -19,7 +19,7 @@ let pathsMax = 1000;
 let my = {};
 
 function setup() {
-  my.title = '?v=8 Drag mouse to draw smooth Bézier curves';
+  my.title = '?v=9 Drag mouse to draw smooth Bézier curves';
   my.canvas = createCanvas(windowWidth, windowHeight - 100);
 
   colorMode(RGB, 255);
@@ -173,11 +173,15 @@ function stop_draw() {
 
 function drawBezierPath(points, layer) {
   if (points.length < 2) return;
-  noFill();
+  layer.noFill();
   let smoothness = smoothnessValue; // Convert to 0.1-1.0 range
   // For paths with only 2 points, draw a simple line
   if (points.length == 2) {
-    line(points[0].x, points[0].y, points[1].x, points[1].y);
+    p0 = points[0];
+    p1 = points[0];
+    layer.stroke(p1.strokeColor);
+    layer.strokeWeight(p1.weight);
+    layer.line(p0.x, p0.y, p1.x, p1.y);
     return;
   }
   // Draw bezier curves between consecutive points
