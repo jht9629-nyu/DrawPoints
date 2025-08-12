@@ -1,7 +1,7 @@
 // https://editor.p5js.org/jht9629-nyu/sketches/vFHFG2gSC
 // bezier draw rainbow noise v5
 
-let paths = [];
+// let paths = [];
 let currentPath = [];
 let isDrawing = false;
 let strokeWeightSlider, smoothnessSlider;
@@ -19,7 +19,7 @@ let pathsMax = 1000;
 let my = {};
 
 function setup() {
-  my.title = '?v=6 Drag mouse to draw smooth Bézier curves';
+  my.title = '?v=7 Drag mouse to draw smooth Bézier curves';
   my.canvas = createCanvas(windowWidth, windowHeight - 100);
 
   colorMode(RGB, 255);
@@ -34,6 +34,8 @@ function setup() {
   my.canvas.touchEnded(canvas_touchEnded);
   my.frameCount = 0;
   lastPoint = { x: width / 2, y: height / 2 };
+
+  my.layer = createGraphics(width, height);
 }
 
 function draw() {
@@ -43,26 +45,28 @@ function draw() {
   autoMode_check();
   //
   // Draw all completed paths
-  for (let path of paths) {
-    drawBezierPath(path.points);
-  }
+  // for (let path of paths) {
+  //   drawBezierPath(path.points);
+  // }
+
+  // Draw comitted paths
+  image(my.layer, 0, 0);
+
   // Draw current path being drawn
   if (currentPath.length > 1) {
-    drawBezierPath(currentPath);
+    drawBezierPath(currentPath, my.canvas);
     // drawBezierPath(currentPath, currentColor, strokeWeightSlider.value());
   }
 }
 
 function canvas_touchStarted() {
   console.log('in canvas_touchStarted');
-  // !!@ p5 mouse globals not reliable here.
-  // !!@ drop need of starting point
-  start_draw(mouseX, mouseY);
+  start_draw();
 }
 
 function canvas_mousePressed() {
   console.log('in canvas_mousePressed');
-  start_draw(mouseX, mouseY);
+  start_draw();
 }
 
 function mouseDragged() {
@@ -118,7 +122,7 @@ function draw_walk() {
   add_point(x, y);
 }
 
-function start_draw(x, y) {
+function start_draw() {
   isDrawing = true;
   currentPath = [];
   // add_point(x, y);
@@ -134,13 +138,11 @@ function add_point(x, y) {
     colorMode(RGB, 255);
     currentColor = color(255);
   }
-  // currentColor = color(hueOffset % 360, 80, 90);
   let strokeColor = currentColor;
   let weight = strokeWeightValue;
   weight = weight / 4 + weight * noise(0.1 * my.frameCount + 20000);
   lastPoint = { x, y, strokeColor, weight };
   currentPath.push(lastPoint);
-  // hueOffset = random(0, 360);
 }
 
 function draw_to(x, y) {
@@ -151,19 +153,25 @@ function draw_to(x, y) {
 }
 
 function stop_draw() {
+  console.log('stop_draw currentPath.length', currentPath.length);
   if (isDrawing && currentPath.length > 1) {
-    if (paths.length > pathsMax) {
-      // console.log("paths.splice");
-      paths.splice(0, 1);
-    }
-    paths.push({ points: currentPath });
+    // if (paths.length > pathsMax) {
+    //   // console.log("paths.splice");
+    //   paths.splice(0, 1);
+    // }
+    // paths.push({ points: currentPath });
+
+    // commit current path to the grahics layer
+    drawBezierPath(currentPath, my.layer);
   }
   isDrawing = false;
   currentPath = [];
+
+  // backup count to avoid small gaps in paths
   my.frameCount -= 1;
 }
 
-function drawBezierPath(points) {
+function drawBezierPath(points, layer) {
   if (points.length < 2) return;
   noFill();
   let smoothness = smoothnessValue; // Convert to 0.1-1.0 range
@@ -192,15 +200,15 @@ function drawBezierPath(points) {
       p2 = points[i + 1];
       p3 = points[i + 2];
     }
-    stroke(p3.strokeColor);
-    strokeWeight(p3.weight);
+    layer.stroke(p3.strokeColor);
+    layer.strokeWeight(p3.weight);
     // Calculate control points for smooth cubic bezier
     let cp1x = p1.x + (p2.x - p0.x) * smoothness * 0.16;
     let cp1y = p1.y + (p2.y - p0.y) * smoothness * 0.16;
     let cp2x = p2.x - (p3.x - p1.x) * smoothness * 0.16;
     let cp2y = p2.y - (p3.y - p1.y) * smoothness * 0.16;
     // Draw the cubic bezier curve using p5.js bezier function
-    bezier(p1.x, p1.y, cp1x, cp1y, cp2x, cp2y, p2.x, p2.y);
+    layer.bezier(p1.x, p1.y, cp1x, cp1y, cp2x, cp2y, p2.x, p2.y);
   }
 }
 
@@ -213,6 +221,7 @@ function clearCanvas() {
   paths = [];
   currentPath = [];
   background(20);
+  my.layer.background(20);
 }
 
 function toggleAutoMode() {
