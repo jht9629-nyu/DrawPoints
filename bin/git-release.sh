@@ -13,7 +13,7 @@ quiet=--quiet
 
 # ./moLib/bin/build.sh --src ./ --files src,README.md --prod $quiet
 
-VERSION=$(grep -e "my.version =" src/a_sketch.js)
+VERSION=$(grep -e "my.version =" DrawPoints/a_sketch.js)
 
 git add . 
 git commit $quiet -m "$VERSION"

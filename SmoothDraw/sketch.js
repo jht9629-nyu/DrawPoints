@@ -119,7 +119,7 @@ function draw_walk() {
 function start_draw(x, y) {
   isDrawing = true;
   currentPath = [];
-  add_point(x, y);
+  // add_point(x, y);
 }
 
 function add_point(x, y) {
