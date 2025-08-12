@@ -1,20 +1,17 @@
 #!/bin/bash
-cd ${0%/*}
 
 # Update main branch from current work branch
+# deploy to github pages
 
 current_branch=$(git branch --show-current)
-echo current $current_branch
+# echo current $current_branch
 
-exit
-
+# current director one level up from bin
+cd ${0%/*}
 cd ..
 quiet=--quiet
 
-# deploy to github pages
-#
 # merge branch current in to main brnach
-#
 
 # ./moLib/bin/build.sh --src ./ --files src,README.md --prod $quiet
 # find version string
