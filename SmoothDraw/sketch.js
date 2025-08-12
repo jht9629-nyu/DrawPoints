@@ -20,9 +20,8 @@ let my = {};
 
 function setup() {
   my.title = 'v5.6 Drag mouse to draw smooth Bézier curves';
-  my.canvas = createCanvas(windowWidth, windowHeight - 200);
+  my.canvas = createCanvas(windowWidth, windowHeight - 170);
 
-  lastPoint = { x: width / 2, y: height / 2 };
   colorMode(RGB, 255);
   background(20);
   // Create all UI elements using p5.js DOM functions
@@ -34,12 +33,13 @@ function setup() {
   my.canvas.touchStarted(canvas_touchStarted);
   my.canvas.touchEnded(canvas_touchEnded);
   my.frameCount = 0;
+  lastPoint = { x: width / 2, y: height / 2 };
 }
 
 function draw() {
   // Slight fade effect for trails
   background(20, 20, 20, 10);
-  // rect(0, 0, width, height);
+
   autoMode_check();
   //
   // Draw all completed paths
