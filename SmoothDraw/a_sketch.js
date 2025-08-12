@@ -20,7 +20,7 @@ let my = {};
 
 function setup() {
   //
-  my.title = '?v=10 Drag mouse to draw smooth Bézier curves';
+  my.title = '?v=11 Drag mouse to draw smooth Bézier curves';
   my.canvas = createCanvas(windowWidth, windowHeight - 100);
   my.downSize = 32;
   my.penAlpha = 0.4;
