@@ -19,12 +19,11 @@ let pathsMax = 1000;
 let my = {};
 
 function setup() {
+  //
   my.title = '?v=10 Drag mouse to draw smooth Bézier curves';
   my.canvas = createCanvas(windowWidth, windowHeight - 100);
+  my.downSize = 32;
 
-  // colorMode(RGB, 255);
-  // background(0);
-  // Create all UI elements using p5.js DOM functions
   create_ui();
 
   my.canvas.mousePressed(canvas_mousePressed);
@@ -35,22 +34,18 @@ function setup() {
   my.frameCount = 0;
   lastPoint = { x: width / 2, y: height / 2 };
 
-  my.layer = createGraphics(width, height);
   create_layer();
+  create_capture();
   // !!@ my.canvas.noFill does not exist
   noFill();
 }
 
 function draw() {
-  // Slight fade effect for trails
-  // background(20, 20, 20, 10);
-
-  autoMode_check();
   //
-  // Draw all completed paths
-  // for (let path of paths) {
-  //   drawBezierPath(path.points);
-  // }
+  autoMode_check();
+
+  // captured video is behind drawing
+  render_capture();
 
   // Draw comitted paths
   image(my.layer, 0, 0);
@@ -58,8 +53,20 @@ function draw() {
   // Draw current path being drawn
   if (currentPath.length > 1) {
     drawBezierPath(currentPath, my.canvas);
-    // drawBezierPath(currentPath, currentColor, strokeWeightSlider.value());
   }
+}
+
+function create_capture() {
+  my.capture = createCapture(VIDEO);
+  my.capture.hide();
+}
+
+function render_capture() {
+  let capv = my.capture;
+  let img = capv.get();
+  // extreme downsampling for distortion
+  img.resize(my.downSize, 0);
+  image(img, 0, 0, width, (width * capv.height) / capv.width);
 }
 
 function canvas_touchStarted() {
@@ -221,7 +228,6 @@ function drawBezierPath(points, layer) {
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
-  // background(20);
   clearCanvas();
 }
 
@@ -236,7 +242,7 @@ function clearCanvas() {
 function create_layer() {
   if (my.layer) my.layer.remove();
   my.layer = createGraphics(width, height);
-  my.layer.background(0);
+  my.layer.clear();
   my.layer.noFill();
 }
 
