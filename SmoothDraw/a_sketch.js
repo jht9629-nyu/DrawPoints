@@ -25,7 +25,6 @@ function setup() {
   my.downSize = 32;
   my.penAlpha = 0.4;
   my.frameCountDelay = 1;
-  my.perFrameMax = 200;
 
   create_ui();
 
@@ -129,12 +128,6 @@ function autoMode_check() {
 }
 
 function draw_walk() {
-  for (let i = 0; i < my.perFrameMax; i++) {
-    draw_walk_add();
-  }
-}
-
-function draw_walk_add() {
   let x = width * noise(0.005 * my.frameCount);
   let y = height * noise(0.005 * my.frameCount + 10000);
   add_point(x, y);
@@ -168,8 +161,10 @@ function video_color(x, y) {
   // let capv = my.capture;
   // image(img, 0, 0, width, (width * capv.height) / capv.width);
   let img = my.capture.get();
+  let r = img.height / img.width;
   x = map(x, 0, width, 0, img.width, true);
-  y = map(y, 0, height, 0, img.height, true);
+  y = map(y, 0, width * r, 0, img.height, true);
+  // y = map(y, 0, height, 0, img.height, true);
   x = int(x);
   y = int(y);
   let c = img.get(x, y);
