@@ -23,6 +23,9 @@ function setup() {
   my.title = '?v=10 Drag mouse to draw smooth Bézier curves';
   my.canvas = createCanvas(windowWidth, windowHeight - 100);
   my.downSize = 32;
+  my.penAlpha = 0.4;
+  my.frameCountDelay = 1;
+  my.perFrameMax = 200;
 
   create_ui();
 
@@ -51,9 +54,7 @@ function draw() {
   image(my.layer, 0, 0);
 
   // Draw current path being drawn
-  if (currentPath.length > 1) {
-    drawBezierPath(currentPath, my.canvas);
-  }
+  drawBezierPath(currentPath, my.canvas);
 }
 
 function create_capture() {
@@ -65,23 +66,24 @@ function render_capture() {
   let capv = my.capture;
   let img = capv.get();
   // extreme downsampling for distortion
+  // keep width, adjust height for aspect ratio
   img.resize(my.downSize, 0);
   image(img, 0, 0, width, (width * capv.height) / capv.width);
 }
 
 function canvas_touchStarted() {
-  console.log('in canvas_touchStarted');
+  // console.log('in canvas_touchStarted');
   start_draw();
 }
 
 function canvas_mousePressed() {
-  console.log('in canvas_mousePressed');
+  // console.log('in canvas_mousePressed');
   start_draw();
 }
 
 function mouseDragged() {
   let onCanvas = mouse_onCanvas();
-  console.log('in mouseDragged');
+  // console.log('in mouseDragged');
 
   // !!@ isDrawing test could be eliminated
   // it use here requires canvas_touchStarted,
@@ -95,12 +97,12 @@ function mouseDragged() {
 }
 
 function canvas_touchEnded() {
-  console.log('in canvas_touchEnded');
+  // console.log('in canvas_touchEnded');
   stop_draw();
 }
 
 function canvas_mouseReleased() {
-  console.log('in canvas_mouseReleased');
+  // console.log('in canvas_mouseReleased');
   stop_draw();
 }
 
@@ -111,7 +113,7 @@ function mouse_onCanvas() {
 }
 
 function autoMode_check() {
-  if (isAutoMode && frameCount % 2 == 0) {
+  if (isAutoMode && frameCount % my.frameCountDelay == 0) {
     if (!isDrawing) {
       // start_draw(random(width), random(height));
       start_draw(lastPoint.x, lastPoint.y);
@@ -127,6 +129,12 @@ function autoMode_check() {
 }
 
 function draw_walk() {
+  for (let i = 0; i < my.perFrameMax; i++) {
+    draw_walk_add();
+  }
+}
+
+function draw_walk_add() {
   let x = width * noise(0.005 * my.frameCount);
   let y = height * noise(0.005 * my.frameCount + 10000);
   add_point(x, y);
@@ -142,17 +150,40 @@ function add_point(x, y) {
   my.frameCount += 1;
   hueOffset += 1;
   if (isColorful) {
-    colorMode(HSB, 360, 100, 100);
-    currentColor = color(hueOffset % 360, 80, 90);
+    // currentColor = rainbow_color();
+    currentColor = video_color(x, y);
   } else {
     colorMode(RGB, 255);
-    currentColor = color(255);
+    currentColor = color(255, 255, 255, my.penAlpha);
   }
   let strokeColor = currentColor;
   let weight = strokeWeightValue;
   weight = weight / 4 + weight * noise(0.1 * my.frameCount + 20000);
   lastPoint = { x, y, strokeColor, weight };
   currentPath.push(lastPoint);
+}
+
+function video_color(x, y) {
+  // console.log('select_color(x, y)', x, y);
+  // let capv = my.capture;
+  // image(img, 0, 0, width, (width * capv.height) / capv.width);
+  let img = my.capture.get();
+  x = map(x, 0, width, 0, img.width, true);
+  y = map(y, 0, height, 0, img.height, true);
+  x = int(x);
+  y = int(y);
+  let c = img.get(x, y);
+  // !!@ alpha is in 0-255 vs. color alpha param 0-1.0
+  c[3] = int(255 * my.penAlpha);
+  // console.log(' mapped x y', x, y, 'c', c);
+  return c;
+}
+
+// map(value, start1, stop1, start2, stop2, [withinBounds])
+
+function rainbow_color() {
+  colorMode(HSB, 360, 100, 100);
+  return color(hueOffset % 360, 80, 90, my.penAlpha);
 }
 
 function draw_to(x, y) {
@@ -163,14 +194,8 @@ function draw_to(x, y) {
 }
 
 function stop_draw() {
-  console.log('stop_draw currentPath.length', currentPath.length);
+  // console.log('stop_draw currentPath.length', currentPath.length);
   if (isDrawing && currentPath.length > 1) {
-    // if (paths.length > pathsMax) {
-    //   // console.log("paths.splice");
-    //   paths.splice(0, 1);
-    // }
-    // paths.push({ points: currentPath });
-
     // commit current path to the grahics layer
     drawBezierPath(currentPath, my.layer);
   }
@@ -269,7 +294,7 @@ function fullScreen_action() {
   try {
     fullscreen(1);
   } catch (err) {
-    console.log('fullscreen err', err);
+    console.error('fullscreen err', err);
   }
   let delay = 3000;
   setTimeout(ui_present_window, delay);
