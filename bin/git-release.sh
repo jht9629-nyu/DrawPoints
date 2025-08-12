@@ -1,7 +1,7 @@
 #!/bin/bash
 cd ${0%/*}
 
-# Produce a release build to main branch
+# Produce release build -- assumes pages set to release branch
 
 cd ..
 quiet=--quiet
