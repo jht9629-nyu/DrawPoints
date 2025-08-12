@@ -21,7 +21,7 @@ let my = {};
 function setup() {
   my.title = 'v5.4 Drag mouse to draw smooth Bézier curves';
 
-  my.canvas = createCanvas(windowWidth, windowHeight);
+  my.canvas = createCanvas(windowWidth, windowHeight - 200);
 
   lastPoint = { x: width / 2, y: height / 2 };
   colorMode(RGB, 255);
@@ -225,7 +225,7 @@ function toggleColorMode() {
 function setupUI() {
   // Main controls container
   controlsDiv = createDiv('');
-  // controlsDiv.position(10, 10);
+  controlsDiv.position(10, height);
   controlsDiv.style('background', 'rgba(0,0,0,0.8)');
   controlsDiv.style('color', 'white');
   controlsDiv.style('padding', '15px');
