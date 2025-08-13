@@ -47,17 +47,17 @@ function create_selections(buttonDiv) {
     });
     sel.selected(my.colorStyle);
   }
-  {
-    let sel = createSelect();
-    addSelect(sel);
-    sel.option('pixel', 'pixel');
-    sel.option('line', 'line');
-    sel.input(function () {
-      my.penStyle = sel.selected();
-      console.log('my.penStyle', my.penStyle);
-    });
-    sel.selected(my.penStyle);
-  }
+  // {
+  //   let sel = createSelect();
+  //   addSelect(sel);
+  //   sel.option('pixel', 'pixel');
+  //   sel.option('line', 'line');
+  //   sel.input(function () {
+  //     my.penStyle = sel.selected();
+  //     console.log('my.penStyle', my.penStyle);
+  //   });
+  //   sel.selected(my.penStyle);
+  // }
   {
     let sel = createSelect();
     addSelect(sel);
@@ -90,7 +90,8 @@ function create_selections(buttonDiv) {
       strokeWeightValue = int(sel.value());
       console.log('my.sizeStyle', my.sizeStyle, 'strokeWeightValue', strokeWeightValue);
     });
-    sel.selected(my.sizeStyle);
+    sel.selected(strokeWeightValue + '');
+    // sel.selected(my.sizeStyle);
   }
 }
 
@@ -141,21 +142,21 @@ function create_buttons(buttonDiv) {
       strokeWeightValue = 32;
       strokeWeightSpan.html(strokeWeightValue);
     });
+
+    // Smooth button
+    my.smoothButton = createButton('Smooth');
+    addButton(my.smoothButton, function () {
+      smoothnessValue = 1.0;
+      smoothnessSpan.html(smoothnessValue.toFixed(1));
+    });
+
+    // Rough button
+    my.roughButton = createButton('Rough');
+    addButton(my.roughButton, function () {
+      smoothnessValue = 0.1;
+      smoothnessSpan.html(smoothnessValue.toFixed(1));
+    });
   }
-
-  // Smooth button
-  my.smoothButton = createButton('Smooth');
-  addButton(my.smoothButton, function () {
-    smoothnessValue = 1.0;
-    smoothnessSpan.html(smoothnessValue.toFixed(1));
-  });
-
-  // Rough button
-  my.roughButton = createButton('Rough');
-  addButton(my.roughButton, function () {
-    smoothnessValue = 0.1;
-    smoothnessSpan.html(smoothnessValue.toFixed(1));
-  });
 }
 
 function create_sliders() {

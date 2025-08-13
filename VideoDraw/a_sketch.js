@@ -6,7 +6,7 @@ let currentPath = [];
 let isDrawing = false;
 let strokeWeightSlider, smoothnessSlider;
 let strokeWeightSpan, smoothnessSpan;
-let strokeWeightValue = 8;
+let strokeWeightValue = 32;
 let smoothnessValue = 1;
 let clearButton, toggleButton;
 let controlsDiv;
@@ -20,12 +20,12 @@ let my = {};
 
 function setup() {
   //
-  my.title = '?v=15 Drag mouse to draw smooth Bézier curves';
+  my.title = '?v=15 Drag mouse to draw on video';
   my.canvas = createCanvas(windowWidth, windowHeight - 100);
   my.downSize = 32;
   my.penAlpha = 255;
-  // my.deltaTimeLimit = 0.5;
-  my.deltaTimeLimit = 0;
+  my.deltaTimeLimit = 0.1;
+  // my.deltaTimeLimit = 0;
 
   init_vars();
 
@@ -51,12 +51,24 @@ function init_vars() {
   my.frameCount = 0;
   lastPoint = { x: width / 2, y: height / 2 };
   my.colorStyle = 'video';
-  my.penStyle = 'pixel';
+  my.penStyle = 'line';
   // my.scanStyle = 'none';
-  my.scanStyle = 'line';
-  my.sizeStyle = 'thin';
+  // my.scanStyle = 'line';
+  my.scanStyle = 'walk';
+  my.sizeStyle = 'thick';
   my.scanX = 0;
   my.scanY = 0;
+  my.scanDirections = [
+    // 8 movement directions
+    [-1, -1],
+    [-1, 0],
+    [-1, 1],
+    [0, -1],
+    [0, 1],
+    [1, -1],
+    [1, 0],
+    [1, 1],
+  ];
 }
 
 function draw() {
@@ -71,29 +83,6 @@ function draw() {
 
   // Draw current path being drawn
   drawBezierPath(currentPath, my.canvas);
-}
-
-function create_capture() {
-  my.capture = createCapture(VIDEO, { flipped: true });
-  my.capture.hide();
-}
-
-function render_capture() {
-  let capv = my.capture;
-  let img = capv.get();
-  // extreme downsampling for distortion
-  if (0) {
-    // keep width, adjust height for aspect ratio
-    img.resize(my.downSize, 0);
-    let ratio = capv.height / capv.width;
-    image(img, 0, 0, width, width * ratio);
-  }
-  {
-    // keep height, adjust width for aspect ratio
-    img.resize(0, my.downSize);
-    let ratio = capv.width / capv.height;
-    image(img, 0, 0, height * ratio, height);
-  }
 }
 
 function canvas_touchStarted() {
@@ -146,7 +135,7 @@ function check_scanStyle() {
   }
 }
 
-// return true to step animation
+// return true to step animation to limit update to my.deltaTimeSeconds
 function frame_ready() {
   my.deltaTimeSeconds += deltaTime / 1000;
   if (my.deltaTimeSeconds >= my.deltaTimeLimit) {
@@ -154,33 +143,6 @@ function frame_ready() {
     return true;
   }
   return false;
-}
-
-function step_scan_walk() {
-  if (!frame_ready()) return;
-  if (!isDrawing) {
-    start_draw(lastPoint.x, lastPoint.y);
-  } else {
-    if (frameCount % 100 == 0) {
-      stop_draw();
-    } else {
-      draw_walk();
-    }
-  }
-}
-
-function step_scan_line() {
-  if (!frame_ready()) return;
-  let x = 0;
-  let y = my.scanY;
-  while (x < width) {
-    add_point(x, y);
-    x += strokeWeightValue;
-  }
-  my.scanY += strokeWeightValue;
-  if (my.scanY > height) {
-    my.scanY = 0;
-  }
 }
 
 function windowResized() {
