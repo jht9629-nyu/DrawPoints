@@ -4,23 +4,27 @@ function step_scan_walk() {
   my.video_img = null;
   if (!frame_ready()) return;
   if (!my.scanWalkInited) {
-    my.scanWalkInited = 1;
-    my.scanX = width / 2;
-    my.scanY = height / 2;
+    init_scan_walk();
   }
-  let x = my.scanX;
-  let y = my.scanY;
+  let [x, y] = my.scan_locs[my.scanIndex];
   add_point(x, y, 'video', 'pixel');
-  let ox = x;
-  let oy = y;
-  do {
-    x += random([strokeWeightValue, 0, -strokeWeightValue]);
-    y += random([strokeWeightValue, 0, -strokeWeightValue]);
-    x = x % width;
-    y = y % height;
-  } while (ox == x && oy == y);
-  my.scanX = x;
-  my.scanY = y;
+  // my.scanIndex = (my.scanIndex + 1) % my.scan_locs.length;
+  my.scanIndex += 1;
+  if (my.scanIndex >= my.scan_locs.length) {
+    init_scan_walk();
+  }
+}
+
+function init_scan_walk() {
+  my.layer.clear();
+  my.scanWalkInited = 1;
+  // my.scanX = width / 2;
+  // my.scanY = height / 2;
+  my.scanIndex = 0;
+  // { width: 600, height: 400, d: 10 }
+  let spiral = new SpiralWalker({ width, height, d: strokeWeightValue });
+  console.log('spiral', spiral);
+  my.scan_locs = spiral.points();
 }
 
 function step_scan_line() {

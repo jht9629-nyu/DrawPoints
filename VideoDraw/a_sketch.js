@@ -20,7 +20,7 @@ let my = {};
 
 function setup() {
   //
-  my.title = '?v=15 Drag mouse to draw on video';
+  my.title = '?v=16 Drag mouse to draw on video';
   my.canvas = createCanvas(windowWidth, windowHeight - 100);
   my.downSize = 32;
   my.penAlpha = 255;
