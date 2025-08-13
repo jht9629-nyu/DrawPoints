@@ -6,7 +6,7 @@ let currentPath = [];
 let isDrawing = false;
 let strokeWeightSlider, smoothnessSlider;
 let strokeWeightSpan, smoothnessSpan;
-let strokeWeightValue = 32;
+let strokeWeightValue = 8;
 let smoothnessValue = 1;
 let clearButton, toggleButton;
 let controlsDiv;
@@ -20,11 +20,12 @@ let my = {};
 
 function setup() {
   //
-  my.title = '?v=14 Drag mouse to draw smooth Bézier curves';
+  my.title = '?v=15 Drag mouse to draw smooth Bézier curves';
   my.canvas = createCanvas(windowWidth, windowHeight - 100);
   my.downSize = 32;
   my.penAlpha = 255;
-  my.frameCountDelay = 1;
+  // my.deltaTimeLimit = 0.5;
+  my.deltaTimeLimit = 0;
 
   init_vars();
 
@@ -37,6 +38,7 @@ function setup() {
   my.canvas.touchEnded(canvas_touchEnded);
 
   create_layer();
+
   create_capture();
 
   // !!@ my.canvas.noFill does not exist
@@ -44,12 +46,17 @@ function setup() {
 }
 
 function init_vars() {
+  my.deltaTimeSeconds = 0;
   my.pixelMargin = 0.1;
   my.frameCount = 0;
   lastPoint = { x: width / 2, y: height / 2 };
   my.colorStyle = 'video';
   my.penStyle = 'pixel';
-  my.scanStyle = 'none';
+  // my.scanStyle = 'none';
+  my.scanStyle = 'line';
+  my.sizeStyle = 'thin';
+  my.scanX = 0;
+  my.scanY = 0;
 }
 
 function draw() {
@@ -67,7 +74,7 @@ function draw() {
 }
 
 function create_capture() {
-  my.capture = createCapture(VIDEO);
+  my.capture = createCapture(VIDEO, { flipped: true });
   my.capture.hide();
 }
 
@@ -75,9 +82,18 @@ function render_capture() {
   let capv = my.capture;
   let img = capv.get();
   // extreme downsampling for distortion
-  // keep width, adjust height for aspect ratio
-  img.resize(my.downSize, 0);
-  image(img, 0, 0, width, (width * capv.height) / capv.width);
+  if (0) {
+    // keep width, adjust height for aspect ratio
+    img.resize(my.downSize, 0);
+    let ratio = capv.height / capv.width;
+    image(img, 0, 0, width, width * ratio);
+  }
+  {
+    // keep height, adjust width for aspect ratio
+    img.resize(0, my.downSize);
+    let ratio = capv.width / capv.height;
+    image(img, 0, 0, height * ratio, height);
+  }
 }
 
 function canvas_touchStarted() {
@@ -130,8 +146,18 @@ function check_scanStyle() {
   }
 }
 
+// return true to step animation
+function frame_ready() {
+  my.deltaTimeSeconds += deltaTime / 1000;
+  if (my.deltaTimeSeconds >= my.deltaTimeLimit) {
+    my.deltaTimeSeconds = 0;
+    return true;
+  }
+  return false;
+}
+
 function step_scan_walk() {
-  if (frameCount % my.frameCountDelay != 0) return;
+  if (!frame_ready()) return;
   if (!isDrawing) {
     start_draw(lastPoint.x, lastPoint.y);
   } else {
@@ -144,145 +170,16 @@ function step_scan_walk() {
 }
 
 function step_scan_line() {
-  //
-}
-
-function draw_walk() {
-  // !!@ noise does not cover the full range
-  let x = width * 1.2 * noise(0.005 * my.frameCount);
-  let y = height * 1.2 * noise(0.005 * my.frameCount + 10000);
-  add_point(x, y);
-}
-
-function start_draw() {
-  isDrawing = true;
-  currentPath = [];
-  // add_point(x, y);
-}
-
-function add_point(x, y) {
-  // console.log('add_point x y my.penStyle', x, y, my.penStyle);
-  my.frameCount += 1;
-  hueOffset += 1;
-
-  // my.colorStyle
-  if (my.colorStyle == 'rainbow') {
-    currentColor = rainbow_color();
-  } else if (my.colorStyle == 'video') {
-    currentColor = video_color(x, y);
-  } else if (my.colorStyle == 'white') {
-    colorMode(RGB, 255);
-    currentColor = color(255, 255, 255, my.penAlpha);
-  }
-  let strokeColor = currentColor;
-  let weight = strokeWeightValue;
-  weight = weight / 4 + weight * noise(0.1 * my.frameCount + 20000);
-  lastPoint = { x, y, strokeColor, weight };
-
-  if (my.penStyle == 'line') {
-    currentPath.push(lastPoint);
-  } else if (my.penStyle == 'pixel') {
-    draw_pixel(x, y, my.layer);
-  }
-}
-
-function draw_pixel(x, y, layer) {
-  // console.log('draw_pixel x y', x, y, currentColor);
-  x = int(x / strokeWeightValue) * strokeWeightValue;
-  y = int(y / strokeWeightValue) * strokeWeightValue;
-  let m = round(strokeWeightValue * my.pixelMargin);
-  layer.strokeWeight(0);
-  layer.fill(currentColor);
-  layer.rect(x + m, y + m, strokeWeightValue - 2 * m, strokeWeightValue - 2 * m);
-}
-
-function video_color(x, y) {
-  // console.log('select_color(x, y)', x, y);
-  // let capv = my.capture;
-  // image(img, 0, 0, width, (width * capv.height) / capv.width);
-  let img = my.capture.get();
-  let r = img.height / img.width;
-  x = map(x, 0, width, 0, img.width, true);
-  y = map(y, 0, width * r, 0, img.height, true);
-  // y = map(y, 0, height, 0, img.height, true);
-  x = int(x);
-  y = int(y);
-  let c = img.get(x, y);
-  c[3] = my.penAlpha;
-  // console.log(' mapped x y', x, y, 'c', c);
-  return c;
-}
-
-// map(value, start1, stop1, start2, stop2, [withinBounds])
-
-function rainbow_color() {
-  colorMode(HSB, 360, 100, 100);
-  // !!@ alpha is in 0-255 vs. color alpha param 0-1.0
-  return color(hueOffset % 360, 80, 90, my.penAlpha / 255);
-}
-
-function draw_to(x, y) {
-  let distance = dist(x, y, lastPoint.x, lastPoint.y);
-  if (distance > 5) {
+  if (!frame_ready()) return;
+  let x = 0;
+  let y = my.scanY;
+  while (x < width) {
     add_point(x, y);
+    x += strokeWeightValue;
   }
-}
-
-function stop_draw() {
-  // console.log('stop_draw currentPath.length', currentPath.length);
-  if (isDrawing && currentPath.length > 1) {
-    // commit current path to the grahics layer
-    drawBezierPath(currentPath, my.layer);
-  }
-  isDrawing = false;
-  currentPath = [];
-
-  // backup count to avoid small gaps in paths
-  my.frameCount -= 1;
-}
-
-function drawBezierPath(points, layer) {
-  if (points.length < 2) return;
-  // layer.noFill(); // !!@ not available on canvas
-  let smoothness = smoothnessValue; // Convert to 0.1-1.0 range
-  // For paths with only 2 points, draw a simple line
-  if (points.length == 2) {
-    p0 = points[0];
-    p1 = points[0];
-    layer.stroke(p1.strokeColor);
-    layer.strokeWeight(p1.weight);
-    layer.line(p0.x, p0.y, p1.x, p1.y);
-    return;
-  }
-  // Draw bezier curves between consecutive points
-  for (let i = 0; i < points.length - 1; i++) {
-    let p0, p1, p2, p3;
-    // Get the four points needed for cubic bezier
-    if (i == 0) {
-      p0 = points[0];
-      p1 = points[0];
-      p2 = points[1];
-      p3 = points.length > 2 ? points[2] : points[1];
-    } else if (i == points.length - 2) {
-      p0 = points[i - 1];
-      p1 = points[i];
-      p2 = points[i + 1];
-      p3 = points[i + 1];
-    } else {
-      p0 = points[i - 1];
-      p1 = points[i];
-      p2 = points[i + 1];
-      p3 = points[i + 2];
-    }
-    layer.stroke(p3.strokeColor);
-    layer.strokeWeight(p3.weight);
-    // Calculate control points for smooth cubic bezier
-    let cp1x = p1.x + (p2.x - p0.x) * smoothness * 0.16;
-    let cp1y = p1.y + (p2.y - p0.y) * smoothness * 0.16;
-    let cp2x = p2.x - (p3.x - p1.x) * smoothness * 0.16;
-    let cp2y = p2.y - (p3.y - p1.y) * smoothness * 0.16;
-    // Draw the cubic bezier curve using p5.js bezier function
-    layer.bezier(p1.x, p1.y, cp1x, cp1y, cp2x, cp2y, p2.x, p2.y);
+  my.scanY += strokeWeightValue;
+  if (my.scanY > height) {
+    my.scanY = 0;
   }
 }
 
