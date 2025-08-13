@@ -8,7 +8,7 @@
 
 - global search and replace to workaround caching in github pages
 
-- ?v=13
+- ?v=14
 
 ## [SmoothDraw pages](https://jht9629-nyu.github.io/DrawPoints/SmoothDraw/)
 

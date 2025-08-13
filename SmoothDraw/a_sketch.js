@@ -12,7 +12,7 @@ let clearButton, toggleButton;
 let controlsDiv;
 // let isColorful = true;
 let hueOffset = 0;
-let isAutoMode = false;
+// let isAutoMode = false;
 let currentColor;
 let lastPoint;
 let pathsMax = 1000;
@@ -20,7 +20,7 @@ let my = {};
 
 function setup() {
   //
-  my.title = '?v=13 Drag mouse to draw smooth Bézier curves';
+  my.title = '?v=14 Drag mouse to draw smooth Bézier curves';
   my.canvas = createCanvas(windowWidth, windowHeight - 100);
   my.downSize = 32;
   my.penAlpha = 255;
@@ -44,14 +44,17 @@ function setup() {
 }
 
 function init_vars() {
+  my.pixelMargin = 0.1;
   my.frameCount = 0;
   lastPoint = { x: width / 2, y: height / 2 };
   my.colorStyle = 'video';
+  my.penStyle = 'pixel';
+  my.scanStyle = 'none';
 }
 
 function draw() {
   //
-  autoMode_check();
+  check_scanStyle();
 
   // captured video is behind drawing
   render_capture();
@@ -112,24 +115,36 @@ function canvas_mouseReleased() {
   stop_draw();
 }
 
+// Return true if mouse is within canvas bounds
 function mouse_onCanvas() {
   let inX = mouseX >= 0 && mouseX < width;
   let inY = mouseY >= 0 && mouseY < height;
   return inX && inY;
 }
 
-function autoMode_check() {
-  if (isAutoMode && frameCount % my.frameCountDelay == 0) {
-    if (!isDrawing) {
-      start_draw(lastPoint.x, lastPoint.y);
+function check_scanStyle() {
+  if (my.scanStyle == 'walk') {
+    step_scan_walk();
+  } else if (my.scanStyle == 'line') {
+    step_scan_line();
+  }
+}
+
+function step_scan_walk() {
+  if (frameCount % my.frameCountDelay != 0) return;
+  if (!isDrawing) {
+    start_draw(lastPoint.x, lastPoint.y);
+  } else {
+    if (frameCount % 100 == 0) {
+      stop_draw();
     } else {
-      if (frameCount % 100 == 0) {
-        stop_draw();
-      } else {
-        draw_walk();
-      }
+      draw_walk();
     }
   }
+}
+
+function step_scan_line() {
+  //
 }
 
 function draw_walk() {
@@ -146,9 +161,10 @@ function start_draw() {
 }
 
 function add_point(x, y) {
-  // console.log('add_point x y', x, y);
+  // console.log('add_point x y my.penStyle', x, y, my.penStyle);
   my.frameCount += 1;
   hueOffset += 1;
+
   // my.colorStyle
   if (my.colorStyle == 'rainbow') {
     currentColor = rainbow_color();
@@ -162,17 +178,22 @@ function add_point(x, y) {
   let weight = strokeWeightValue;
   weight = weight / 4 + weight * noise(0.1 * my.frameCount + 20000);
   lastPoint = { x, y, strokeColor, weight };
-  currentPath.push(lastPoint);
-  // draw_pixel(x, y, my.layer);
+
+  if (my.penStyle == 'line') {
+    currentPath.push(lastPoint);
+  } else if (my.penStyle == 'pixel') {
+    draw_pixel(x, y, my.layer);
+  }
 }
 
 function draw_pixel(x, y, layer) {
   // console.log('draw_pixel x y', x, y, currentColor);
   x = int(x / strokeWeightValue) * strokeWeightValue;
   y = int(y / strokeWeightValue) * strokeWeightValue;
+  let m = round(strokeWeightValue * my.pixelMargin);
   layer.strokeWeight(0);
   layer.fill(currentColor);
-  layer.rect(x, y, strokeWeightValue, strokeWeightValue);
+  layer.rect(x + m, y + m, strokeWeightValue - 2 * m, strokeWeightValue - 2 * m);
 }
 
 function video_color(x, y) {
@@ -285,14 +306,9 @@ function create_layer() {
   my.layer.noFill();
 }
 
-function toggleAutoMode() {
-  isAutoMode = !isAutoMode;
-  autoButton.html('Auto ' + (isAutoMode ? 'On' : 'Off'));
-}
-
-// function toggleColorMode() {
-//   isColorful = !isColorful;
-//   toggleButton.html(isColorful ? 'Colorful' : 'White');
+// function toggleAutoMode() {
+//   isAutoMode = !isAutoMode;
+//   autoButton.html('Auto ' + (isAutoMode ? 'On' : 'Off'));
 // }
 
 function fullScreen_action() {

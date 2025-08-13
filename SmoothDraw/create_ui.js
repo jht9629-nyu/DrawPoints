@@ -42,6 +42,29 @@ function create_selections() {
     });
     sel.selected(my.colorStyle);
   }
+  {
+    let sel = createSelect();
+    addSelect(sel);
+    sel.option('pixel');
+    sel.option('line');
+    sel.input(function () {
+      my.penStyle = sel.selected();
+      console.log('my.penStyle', my.penStyle);
+    });
+    sel.selected(my.penStyle);
+  }
+  {
+    let sel = createSelect();
+    addSelect(sel);
+    sel.option('none');
+    sel.option('walk');
+    sel.option('line');
+    sel.input(function () {
+      my.scanStyle = sel.selected();
+      console.log('my.scanStyle', my.scanStyle);
+    });
+    sel.selected(my.scanStyle);
+  }
 }
 
 function add_buttonStyle(elt) {
@@ -67,8 +90,8 @@ function create_buttons() {
   }
 
   // Auto toggle button
-  autoButton = createButton('Auto Off');
-  addButton(autoButton, toggleAutoMode);
+  // autoButton = createButton('Auto Off');
+  // addButton(autoButton, toggleAutoMode);
 
   // Full Screen button
   my.fullScreenButton = createButton('Full');
@@ -77,10 +100,6 @@ function create_buttons() {
   // Clear button
   clearButton = createButton('Clear');
   addButton(clearButton, clearCanvas);
-
-  // Mode toggle button
-  // toggleButton = createButton('Colorful');
-  // addButton(toggleButton, toggleColorMode);
 
   // Thin button
   my.thinButton = createButton('Thin');
