@@ -93,7 +93,7 @@ function create_sliders() {
   strokeLabel.parent(strokeDiv);
 
   // createSlider(min, max, [value], [step])
-  strokeWeightSlider = createSlider(1, 40, strokeWeightValue);
+  strokeWeightSlider = createSlider(1, 128, strokeWeightValue);
   strokeWeightSlider.parent(strokeDiv);
   strokeWeightSlider.style('margin', '0 10px');
 

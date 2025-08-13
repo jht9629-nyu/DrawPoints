@@ -6,7 +6,7 @@ let currentPath = [];
 let isDrawing = false;
 let strokeWeightSlider, smoothnessSlider;
 let strokeWeightSpan, smoothnessSpan;
-let strokeWeightValue = 10;
+let strokeWeightValue = 32;
 let smoothnessValue = 1;
 let clearButton, toggleButton;
 let controlsDiv;
@@ -20,7 +20,7 @@ let my = {};
 
 function setup() {
   //
-  my.title = '?v=12 Drag mouse to draw smooth Bézier curves';
+  my.title = '?v=13 Drag mouse to draw smooth Bézier curves';
   my.canvas = createCanvas(windowWidth, windowHeight - 100);
   my.downSize = 32;
   my.penAlpha = 0.4;
@@ -53,7 +53,7 @@ function draw() {
   image(my.layer, 0, 0);
 
   // Draw current path being drawn
-  drawBezierPath(currentPath, my.canvas);
+  // drawBezierPath(currentPath, my.canvas);
 }
 
 function create_capture() {
@@ -141,6 +141,7 @@ function start_draw() {
 }
 
 function add_point(x, y) {
+  // console.log('add_point x y', x, y);
   my.frameCount += 1;
   hueOffset += 1;
   if (isColorful) {
@@ -154,7 +155,17 @@ function add_point(x, y) {
   let weight = strokeWeightValue;
   weight = weight / 4 + weight * noise(0.1 * my.frameCount + 20000);
   lastPoint = { x, y, strokeColor, weight };
-  currentPath.push(lastPoint);
+  // currentPath.push(lastPoint);
+  draw_pixel(x, y, my.layer);
+}
+
+function draw_pixel(x, y, layer) {
+  // console.log('draw_pixel x y', x, y, currentColor);
+  x = int(x / strokeWeightValue) * strokeWeightValue;
+  y = int(y / strokeWeightValue) * strokeWeightValue;
+  layer.strokeWeight(0);
+  layer.fill(currentColor);
+  layer.rect(x, y, strokeWeightValue, strokeWeightValue);
 }
 
 function video_color(x, y) {
