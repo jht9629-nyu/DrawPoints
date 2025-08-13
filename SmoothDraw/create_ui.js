@@ -15,9 +15,43 @@ function create_ui() {
   title.parent(controlsDiv);
   title.style('margin-bottom', '10px');
 
+  create_selections();
+
   create_buttons();
 
   create_sliders();
+}
+
+function create_selections() {
+  let selectionDiv = createDiv('');
+  selectionDiv.parent(controlsDiv);
+
+  function addSelect(sel) {
+    sel.parent(selectionDiv);
+    add_buttonStyle(sel);
+  }
+  {
+    let sel = createSelect();
+    addSelect(sel);
+    sel.option('rainbow');
+    sel.option('white');
+    sel.option('video');
+    sel.input(function () {
+      my.colorStyle = sel.selected();
+      console.log('my.colorStyle', my.colorStyle);
+    });
+    sel.selected(my.colorStyle);
+  }
+}
+
+function add_buttonStyle(elt) {
+  elt.style('background', '#4CAF50');
+  elt.style('color', 'white');
+  elt.style('border', 'none');
+  elt.style('padding', '8px 16px');
+  elt.style('margin', '5px');
+  elt.style('border-radius', '4px');
+  elt.style('cursor', 'pointer');
 }
 
 function create_buttons() {
@@ -28,14 +62,8 @@ function create_buttons() {
 
   function addButton(btn, mouseFunc) {
     btn.parent(buttonDiv);
-    btn.style('background', '#4CAF50');
-    btn.style('color', 'white');
-    btn.style('border', 'none');
-    btn.style('padding', '8px 16px');
-    btn.style('margin', '5px');
-    btn.style('border-radius', '4px');
-    btn.style('cursor', 'pointer');
     btn.mousePressed(mouseFunc);
+    add_buttonStyle(btn);
   }
 
   // Auto toggle button
@@ -51,8 +79,8 @@ function create_buttons() {
   addButton(clearButton, clearCanvas);
 
   // Mode toggle button
-  toggleButton = createButton('Colorful');
-  addButton(toggleButton, toggleColorMode);
+  // toggleButton = createButton('Colorful');
+  // addButton(toggleButton, toggleColorMode);
 
   // Thin button
   my.thinButton = createButton('Thin');
