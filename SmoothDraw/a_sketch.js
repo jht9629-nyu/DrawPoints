@@ -128,8 +128,9 @@ function autoMode_check() {
 }
 
 function draw_walk() {
-  let x = width * noise(0.005 * my.frameCount);
-  let y = height * noise(0.005 * my.frameCount + 10000);
+  // !!@ noise does not cover the full range
+  let x = width * 1.2 * noise(0.005 * my.frameCount);
+  let y = height * 1.2 * noise(0.005 * my.frameCount + 10000);
   add_point(x, y);
 }
 
