@@ -47,17 +47,6 @@ function create_selections(buttonDiv) {
     });
     sel.selected(my.colorStyle);
   }
-  // {
-  //   let sel = createSelect();
-  //   addSelect(sel);
-  //   sel.option('pixel', 'pixel');
-  //   sel.option('line', 'line');
-  //   sel.input(function () {
-  //     my.penStyle = sel.selected();
-  //     console.log('my.penStyle', my.penStyle);
-  //   });
-  //   sel.selected(my.penStyle);
-  // }
   {
     let sel = createSelect();
     addSelect(sel);
@@ -74,18 +63,22 @@ function create_selections(buttonDiv) {
     let sel = createSelect();
     g_sel = sel;
     addSelect(sel);
-    sel.option('thin', 8);
+    sel.option('pico', 1);
+    sel.option('nano', 2);
+    sel.option('micro', 4);
+    sel.option('tiny', 8);
+    sel.option('small', 12);
     sel.option('medium', 16);
-    sel.option('thick', 32);
+    sel.option('large', 24);
+    sel.option('XL', 32);
+    sel.option('XXL', 40);
+    sel.option('XXXL', 48);
     sel.input(function (event) {
       // console.log('event', event);
       g_event = event;
       // !!@ Not getting option name
       // my.sizeStyle = sel.selected();
       // use native elt to get option name
-      // let index = sel.elt.selectedIndex;
-      // console.log('index', index);
-      // my.sizeStype = sel.elt.selectedOptions[0].innerText;
       my.sizeStyle = sel.elt.selectedOptions[0].innerText;
       strokeWeightValue = int(sel.value());
       console.log('my.sizeStyle', my.sizeStyle, 'strokeWeightValue', strokeWeightValue);
@@ -116,10 +109,6 @@ function create_buttons(buttonDiv) {
     add_buttonStyle(btn);
   }
 
-  // Auto toggle button
-  // autoButton = createButton('Auto Off');
-  // addButton(autoButton, toggleAutoMode);
-
   // Full Screen button
   my.fullScreenButton = createButton('Full');
   addButton(my.fullScreenButton, fullScreen_action);
@@ -127,36 +116,6 @@ function create_buttons(buttonDiv) {
   // Clear button
   clearButton = createButton('Clear');
   addButton(clearButton, clearCanvas);
-
-  if (0) {
-    // Thin button
-    my.thinButton = createButton('Thin');
-    addButton(my.thinButton, function () {
-      strokeWeightValue = 8;
-      strokeWeightSpan.html(strokeWeightValue);
-    });
-
-    // Thick button
-    my.thickButton = createButton('Thick');
-    addButton(my.thickButton, function () {
-      strokeWeightValue = 32;
-      strokeWeightSpan.html(strokeWeightValue);
-    });
-
-    // Smooth button
-    my.smoothButton = createButton('Smooth');
-    addButton(my.smoothButton, function () {
-      smoothnessValue = 1.0;
-      smoothnessSpan.html(smoothnessValue.toFixed(1));
-    });
-
-    // Rough button
-    my.roughButton = createButton('Rough');
-    addButton(my.roughButton, function () {
-      smoothnessValue = 0.1;
-      smoothnessSpan.html(smoothnessValue.toFixed(1));
-    });
-  }
 }
 
 function create_sliders() {
@@ -180,31 +139,5 @@ function create_sliders() {
   strokeWeightSlider.input(() => {
     strokeWeightValue = strokeWeightSlider.value();
     strokeWeightSpan.html(strokeWeightValue);
-  });
-
-  // create_smoothness();
-}
-
-function create_smoothness() {
-  // Smoothness controls
-  let smoothDiv = createDiv('');
-  smoothDiv.parent(controlsDiv);
-  smoothDiv.style('margin', '8px 0');
-
-  let smoothLabel = createSpan('Smoothness: ');
-  smoothLabel.parent(smoothDiv);
-
-  // createSlider(min, max, [value], [step])
-  smoothnessSlider = createSlider(1, 10, 10);
-  smoothnessSlider.parent(smoothDiv);
-  smoothnessSlider.style('margin', '0 10px');
-
-  smoothnessSpan = createSpan(smoothnessValue.toFixed(1));
-  smoothnessSpan.parent(smoothDiv);
-
-  // Update smoothness display when slider changes
-  smoothnessSlider.input(() => {
-    smoothnessValue = smoothnessSlider.value() / 10; // Convert to 0.1-1.0 range
-    smoothnessSpan.html(smoothnessValue.toFixed(1));
   });
 }

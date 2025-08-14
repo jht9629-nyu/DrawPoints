@@ -6,7 +6,7 @@ let currentPath = [];
 let isDrawing = false;
 let strokeWeightSlider, smoothnessSlider;
 let strokeWeightSpan, smoothnessSpan;
-let strokeWeightValue = 32;
+let strokeWeightValue = 12;
 let smoothnessValue = 1;
 let clearButton, toggleButton;
 let controlsDiv;
@@ -39,6 +39,8 @@ function setup() {
 
   create_layer();
 
+  create_draw_layer();
+
   create_capture();
 
   // !!@ my.canvas.noFill does not exist
@@ -52,23 +54,12 @@ function init_vars() {
   lastPoint = { x: width / 2, y: height / 2 };
   my.colorStyle = 'video';
   my.penStyle = 'line';
-  // my.scanStyle = 'none';
   // my.scanStyle = 'line';
   my.scanStyle = 'walk';
+  // my.scanStyle = 'none';
   my.sizeStyle = 'thick';
   my.scanX = 0;
   my.scanY = 0;
-  my.scanDirections = [
-    // 8 movement directions
-    [-1, -1],
-    [-1, 0],
-    [-1, 1],
-    [0, -1],
-    [0, 1],
-    [1, -1],
-    [1, 0],
-    [1, 1],
-  ];
 }
 
 function draw() {
@@ -80,6 +71,8 @@ function draw() {
 
   // Draw comitted paths
   image(my.layer, 0, 0);
+
+  image(my.drawLayer, 0, 0);
 
   // Draw current path being drawn
   drawBezierPath(currentPath, my.canvas);
@@ -154,15 +147,23 @@ function clearCanvas() {
   // paths = [];
   currentPath = [];
   background(0);
-  // !!@ Must remove layer to avoid memory leaks
   create_layer();
+  init_scan_walk();
 }
 
 function create_layer() {
+  // !!@ Must remove layer to avoid memory leaks
   if (my.layer) my.layer.remove();
   my.layer = createGraphics(width, height);
   my.layer.clear();
   my.layer.noFill();
+}
+
+function create_draw_layer() {
+  if (my.drawLayer) my.drawLayer.remove();
+  my.drawLayer = createGraphics(width, height);
+  my.drawLayer.clear();
+  my.drawLayer.noFill();
 }
 
 // function toggleAutoMode() {

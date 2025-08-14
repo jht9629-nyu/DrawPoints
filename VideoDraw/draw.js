@@ -6,10 +6,17 @@ function step_scan_walk() {
   if (!my.scanWalkInited) {
     init_scan_walk();
   }
-  let [x, y] = my.scan_locs[my.scanIndex];
-  add_point(x, y, 'video', 'pixel');
-  // my.scanIndex = (my.scanIndex + 1) % my.scan_locs.length;
-  my.scanIndex += 1;
+  let nw = width / strokeWeightValue;
+  let n = min(nw, my.scanLoop);
+  // my.scanIndex
+  // my.scan_locs.length
+  for (let i = 0; i < n; i++) {
+    let [x, y] = my.scan_locs[my.scanIndex % my.scan_locs.length];
+    add_point(x, y, 'video', 'pixel', my.layer);
+    // my.scanIndex = (my.scanIndex + 1) % my.scan_locs.length;
+    my.scanIndex += 1;
+  }
+  my.scanLoop += 1;
   if (my.scanIndex >= my.scan_locs.length) {
     init_scan_walk();
   }
@@ -18,9 +25,8 @@ function step_scan_walk() {
 function init_scan_walk() {
   my.layer.clear();
   my.scanWalkInited = 1;
-  // my.scanX = width / 2;
-  // my.scanY = height / 2;
   my.scanIndex = 0;
+  my.scanLoop = 1;
   // { width: 600, height: 400, d: 10 }
   let spiral = new SpiralWalker({ width, height, d: strokeWeightValue });
   console.log('spiral', spiral);
@@ -33,7 +39,7 @@ function step_scan_line() {
   let x = 0;
   let y = my.scanY;
   while (x < width) {
-    add_point(x, y, 'video', 'pixel');
+    add_point(x, y, 'video', 'pixel', my.layer);
     x += strokeWeightValue;
   }
   my.scanY += strokeWeightValue;
@@ -70,7 +76,7 @@ function start_draw() {
 function draw_to(x, y) {
   let distance = dist(x, y, lastPoint.x, lastPoint.y);
   if (distance > 5) {
-    add_point(x, y, my.colorStyle, my.penStyle);
+    add_point(x, y, my.colorStyle, my.penStyle, my.drawLayer);
   }
 }
 
@@ -78,7 +84,7 @@ function stop_draw() {
   // console.log('stop_draw currentPath.length', currentPath.length);
   if (isDrawing && currentPath.length > 1) {
     // commit current path to the grahics layer
-    drawBezierPath(currentPath, my.layer);
+    drawBezierPath(currentPath, my.drawLayer);
   }
   isDrawing = false;
   currentPath = [];
@@ -86,7 +92,7 @@ function stop_draw() {
   my.frameCount -= 1;
 }
 
-function add_point(x, y, colorStyle, penStyle) {
+function add_point(x, y, colorStyle, penStyle, layer) {
   // console.log('add_point x y my.penStyle', x, y, my.penStyle);
   my.frameCount += 1;
   hueOffset += 1;
@@ -115,7 +121,7 @@ function add_point(x, y, colorStyle, penStyle) {
   if (penStyle == 'line') {
     currentPath.push(lastPoint);
   } else if (penStyle == 'pixel') {
-    draw_pixel(x, y, my.layer);
+    draw_pixel(x, y, layer);
   }
 }
 
