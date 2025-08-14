@@ -20,7 +20,8 @@ let my = {};
 
 function setup() {
   //
-  my.title = '?v=18 Drag mouse to draw on video';
+  my.title = '?v=19 Drag mouse to draw on video';
+  // Give a little room at bottom for buttons in create_ui
   my.canvas = createCanvas(windowWidth, windowHeight - 100);
   my.downSize = 32;
   my.penAlpha = 255;

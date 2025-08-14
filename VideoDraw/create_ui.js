@@ -3,6 +3,7 @@
 function create_ui() {
   // Main controls container
   controlsDiv = createDiv('');
+  // Position below the canvas
   controlsDiv.position(10, height);
   controlsDiv.style('background', 'rgba(0,0,0,0.8)');
   controlsDiv.style('color', 'white');

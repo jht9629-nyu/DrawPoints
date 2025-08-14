@@ -18,7 +18,8 @@ function step_scan_walk() {
   }
   my.scanLoop += 1;
   if (my.scanIndex >= my.scan_locs.length) {
-    init_scan_walk();
+    // init_scan_walk();
+    my.scanIndex = 0;
   }
 }
 
