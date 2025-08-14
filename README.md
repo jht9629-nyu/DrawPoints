@@ -3,7 +3,7 @@
 - Drawing with mouse and touch series
 
 - global search and replace to workaround caching in github pages
-- ?v=17
+- ?v=18
 
 ## [DrawPoints pages](https://jht9629-nyu.github.io/DrawPoints/DrawPoints/)
 

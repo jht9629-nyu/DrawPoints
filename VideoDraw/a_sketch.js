@@ -20,7 +20,7 @@ let my = {};
 
 function setup() {
   //
-  my.title = '?v=17 Drag mouse to draw on video';
+  my.title = '?v=18 Drag mouse to draw on video';
   my.canvas = createCanvas(windowWidth, windowHeight - 100);
   my.downSize = 32;
   my.penAlpha = 255;
@@ -54,8 +54,8 @@ function init_vars() {
   lastPoint = { x: width / 2, y: height / 2 };
   my.colorStyle = 'video';
   my.penStyle = 'line';
-  // my.scanStyle = 'line';
-  my.scanStyle = 'spiral';
+  my.scanStyle = 'line';
+  // my.scanStyle = 'spiral';
   // my.scanStyle = 'none';
   my.sizeStyle = 'thick';
   my.scanX = 0;
@@ -148,6 +148,7 @@ function clearCanvas() {
   currentPath = [];
   background(0);
   create_layer();
+  create_draw_layer();
   init_scan_walk();
 }
 
