@@ -24,7 +24,7 @@ function create_ui() {
 
   create_buttons(buttonDiv);
 
-  create_sliders();
+  // create_sliders();
 }
 
 function create_selections(buttonDiv) {
@@ -50,9 +50,9 @@ function create_selections(buttonDiv) {
   {
     let sel = createSelect();
     addSelect(sel);
-    sel.option('scan:none', 'none');
-    sel.option('scan:walk', 'walk');
-    sel.option('scan:line', 'line');
+    sel.option('none', 'none');
+    sel.option('spiral', 'spiral');
+    sel.option('line', 'line');
     sel.input(function () {
       my.scanStyle = sel.selected();
       console.log('my.scanStyle', my.scanStyle);
@@ -118,26 +118,26 @@ function create_buttons(buttonDiv) {
   addButton(clearButton, clearCanvas);
 }
 
-function create_sliders() {
-  // Stroke weight controls
-  let strokeDiv = createDiv('');
-  strokeDiv.parent(controlsDiv);
-  strokeDiv.style('margin', '8px 0');
+// function create_sliders() {
+//   // Stroke weight controls
+//   let strokeDiv = createDiv('');
+//   strokeDiv.parent(controlsDiv);
+//   strokeDiv.style('margin', '8px 0');
 
-  let strokeLabel = createSpan('Stroke Weight: ');
-  strokeLabel.parent(strokeDiv);
+//   let strokeLabel = createSpan('Stroke Weight: ');
+//   strokeLabel.parent(strokeDiv);
 
-  // createSlider(min, max, [value], [step])
-  strokeWeightSlider = createSlider(1, 128, strokeWeightValue);
-  strokeWeightSlider.parent(strokeDiv);
-  strokeWeightSlider.style('margin', '0 10px');
+//   // createSlider(min, max, [value], [step])
+//   strokeWeightSlider = createSlider(1, 128, strokeWeightValue);
+//   strokeWeightSlider.parent(strokeDiv);
+//   strokeWeightSlider.style('margin', '0 10px');
 
-  strokeWeightSpan = createSpan(strokeWeightValue + '');
-  strokeWeightSpan.parent(strokeDiv);
+//   strokeWeightSpan = createSpan(strokeWeightValue + '');
+//   strokeWeightSpan.parent(strokeDiv);
 
-  // Update stroke weight display when slider changes
-  strokeWeightSlider.input(() => {
-    strokeWeightValue = strokeWeightSlider.value();
-    strokeWeightSpan.html(strokeWeightValue);
-  });
-}
+//   // Update stroke weight display when slider changes
+//   strokeWeightSlider.input(() => {
+//     strokeWeightValue = strokeWeightSlider.value();
+//     strokeWeightSpan.html(strokeWeightValue);
+//   });
+// }
