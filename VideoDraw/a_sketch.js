@@ -20,7 +20,7 @@ let my = {};
 
 function setup() {
   //
-  my.title = '?v=19 Drag mouse to draw on video';
+  my.title = '?v=20 Drag mouse to draw on video';
   // Give a little room at bottom for buttons in create_ui
   my.canvas = createCanvas(windowWidth, windowHeight - 100);
   my.downSize = 32;
@@ -126,6 +126,8 @@ function check_scanStyle() {
     step_scan_walk();
   } else if (my.scanStyle == 'line') {
     step_scan_line();
+  } else if (my.scanStyle == 'pixel') {
+    step_scan_pixel();
   }
 }
 

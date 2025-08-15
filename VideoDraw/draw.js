@@ -1,5 +1,19 @@
 //
 
+function step_scan_pixel() {
+  // console.log('step_scan_pixel x y', my.scanX, my.scanY);
+  my.video_img = null;
+  add_point(my.scanX, my.scanY, 'video', 'pixel', my.layer);
+  my.scanX += strokeWeightValue;
+  if (my.scanX > width) {
+    my.scanX = 0;
+    my.scanY += strokeWeightValue;
+    if (my.scanY > height) {
+      my.scanY = 0;
+    }
+  }
+}
+
 function step_scan_walk() {
   my.video_img = null;
   if (!frame_ready()) return;

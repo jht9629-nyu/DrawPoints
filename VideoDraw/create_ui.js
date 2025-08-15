@@ -52,8 +52,9 @@ function create_selections(buttonDiv) {
     let sel = createSelect();
     addSelect(sel);
     sel.option('none', 'none');
-    sel.option('spiral', 'spiral');
     sel.option('line', 'line');
+    sel.option('spiral', 'spiral');
+    sel.option('pixel', 'pixel');
     sel.input(function () {
       my.scanStyle = sel.selected();
       console.log('my.scanStyle', my.scanStyle);
