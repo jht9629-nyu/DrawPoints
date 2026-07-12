@@ -118,6 +118,10 @@ function create_buttons(buttonDiv) {
   // Clear button
   clearButton = createButton('Clear');
   addButton(clearButton, clearCanvas);
+
+  // Auto draw toggle button
+  autoButton = createButton('Auto Off');
+  addButton(autoButton, toggleAutoDraw);
 }
 
 // function create_sliders() {

@@ -8,7 +8,7 @@ let strokeWeightSlider, smoothnessSlider;
 let strokeWeightSpan, smoothnessSpan;
 let strokeWeightValue = 12;
 let smoothnessValue = 1;
-let clearButton, toggleButton;
+let clearButton, autoButton;
 let controlsDiv;
 // let isColorful = true;
 let hueOffset = 0;
@@ -52,6 +52,7 @@ function init_vars() {
   my.deltaTimeSeconds = 0;
   my.pixelMargin = 0.1;
   my.frameCount = 0;
+  my.autoDrawOn = false;
   lastPoint = { x: width / 2, y: height / 2 };
   my.colorStyle = 'video';
   my.penStyle = 'line';
@@ -66,6 +67,7 @@ function init_vars() {
 function draw() {
   //
   check_scanStyle();
+  auto_draw_check();
 
   // captured video is behind drawing
   render_capture();
@@ -146,28 +148,52 @@ function windowResized() {
   clearCanvas();
 }
 
+// !!@ p5.js error
+//    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.13/lib/p5.js"></script>
+//
+//         _main.default.Element.prototype.remove = function () {
+//           var index = this._pInst._elements.indexOf(this);
+// 
 function clearCanvas() {
+  console.log('clearCanvas enter');
   // paths = [];
   currentPath = [];
   background(0);
   create_layer();
   create_draw_layer();
   init_scan_walk();
+  console.log('clearCanvas leave');
+}
+
+function toggleAutoDraw() {
+  my.autoDrawOn = !my.autoDrawOn;
+  autoButton.html('Auto ' + (my.autoDrawOn ? 'On' : 'Off'));
 }
 
 function create_layer() {
   // !!@ Must remove layer to avoid memory leaks
-  if (my.layer) my.layer.remove();
+  console.log('create_layer enter');
+  if (my.layer) {
+    console.log('create_layer _pInst', my.layer._pInst);
+    my.layer.remove();
+    console.log('create_layer after remove');
+  }
   my.layer = createGraphics(width, height);
   my.layer.clear();
   my.layer.noFill();
+  console.log('create_layer exit');
 }
 
 function create_draw_layer() {
-  if (my.drawLayer) my.drawLayer.remove();
+  console.log('create_draw_layer enter');
+  if (my.drawLayer) {
+    console.log('create_draw_layer ', my.drawLayer._pInst);
+    my.drawLayer.remove();
+  }
   my.drawLayer = createGraphics(width, height);
   my.drawLayer.clear();
   my.drawLayer.noFill();
+  console.log('create_draw_layer exit');
 }
 
 // function toggleAutoMode() {

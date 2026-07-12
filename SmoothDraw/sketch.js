@@ -115,6 +115,9 @@ function autoMode_check() {
 function draw_walk() {
   let x = width * noise(0.005 * my.frameCount);
   let y = height * noise(0.005 * my.frameCount + 10000);
+  if (lastPoint) {
+    console.log('draw_walk diff x y', lastPoint.x - x, lastPoint.y - y)
+  }
   add_point(x, y);
 }
 

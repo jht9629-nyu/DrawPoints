@@ -1,6 +1,7 @@
 //
 
 function drawBezierPath(points, layer) {
+  // console.log('drawBezierPath points.length', points.length);
   if (points.length < 2) return;
   // layer.noFill(); // !!@ not available on canvas
   let smoothness = smoothnessValue; // Convert to 0.1-1.0 range
