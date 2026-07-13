@@ -13,7 +13,7 @@ function auto_draw_check() {
     start_draw();
     // Seed each new auto path from the last point for continuity.
     // add_point(lastPoint.x, lastPoint.y, my.colorStyle, my.penStyle, my.drawLayer);
-    add_point(lastPoint.x, lastPoint.y,  'video', 'line',  my.drawLayer);
+    add_point(lastPoint.x, lastPoint.y, 'video', 'line', my.drawLayer);
     return;
   }
   if (frameCount % 100 == 0) {
@@ -26,10 +26,10 @@ function auto_draw_check() {
 function auto_draw_walk() {
   let x = width * noise(0.005 * my.frameCount);
   let y = height * noise(0.005 * my.frameCount + 10000);
-  // !!@ noise gives wild values 
+  // !!@ noise gives wild values
   //
   if (lastPoint) {
-    console.log('auto_draw_walk diff x y', lastPoint.x - x, lastPoint.y - y, lastPoint.frameCount - my.frameCount)
+    console.log('auto_draw_walk diff x y', lastPoint.x - x, lastPoint.y - y, lastPoint.frameCount - my.frameCount);
   }
   // console.log('auto_draw_walk x y', x, y, my.frameCount)
   // add_point(x, y, my.colorStyle, my.penStyle, my.drawLayer);

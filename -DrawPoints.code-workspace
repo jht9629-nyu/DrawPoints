@@ -5,6 +5,8 @@
     }
   ],
   "settings": {
-    "liveServer.settings.port": 5510
+    "liveServer.settings.port": 5510,
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
 }

@@ -34,9 +34,11 @@ function setup() {
 
   my.canvas.mousePressed(canvas_mousePressed);
   my.canvas.mouseReleased(canvas_mouseReleased);
+
   // !!@ p5 docs not correct, must deal with touch events explictly
-  my.canvas.touchStarted(canvas_touchStarted);
-  my.canvas.touchEnded(canvas_touchEnded);
+  // !!@ p5@2.3.0
+  // my.canvas.touchStarted(canvas_touchStarted);
+  // my.canvas.touchEnded(canvas_touchEnded);
 
   create_layer();
 
@@ -153,7 +155,7 @@ function windowResized() {
 //
 //         _main.default.Element.prototype.remove = function () {
 //           var index = this._pInst._elements.indexOf(this);
-// 
+//
 function clearCanvas() {
   console.log('clearCanvas enter');
   // paths = [];
