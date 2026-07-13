@@ -4,7 +4,7 @@ function create_ui() {
   // Main controls container
   controlsDiv = createDiv('');
   // Position below the canvas
-  controlsDiv.position(10, height - 100);
+  controlsDiv.position(10, height - 80);
   controlsDiv.style('background', 'rgba(0,0,0,0.8)');
   controlsDiv.style('color', 'white');
   controlsDiv.style('padding', '15px');
@@ -12,18 +12,18 @@ function create_ui() {
   controlsDiv.style('font-family', 'Arial, sans-serif');
 
   // Title
-  let title = createDiv(my.title);
+  let title = createSpan(my.title);
   title.parent(controlsDiv);
-  title.style('margin-bottom', '10px');
+  // title.style('margin-bottom', '10px');
 
   // Button container
-  let buttonDiv = createDiv('');
-  buttonDiv.parent(controlsDiv);
+  // let buttonDiv = createDiv('');
+  // buttonDiv.parent(controlsDiv);
   // buttonDiv.style('margin-top', '10px');
 
-  create_selections(buttonDiv);
+  create_selections(controlsDiv);
 
-  create_buttons(buttonDiv);
+  create_buttons(controlsDiv);
 
   // create_sliders();
 }

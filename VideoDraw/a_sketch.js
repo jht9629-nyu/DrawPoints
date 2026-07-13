@@ -8,11 +8,8 @@ let strokeWeightSlider, smoothnessSlider;
 let strokeWeightSpan, smoothnessSpan;
 let strokeWeightValue = 12;
 let smoothnessValue = 1;
-// let clearButton, autoButton;
 let controlsDiv;
-// let isColorful = true;
 let hueOffset = 0;
-// let isAutoMode = false;
 let currentColor;
 let lastPoint;
 let pathsMax = 1000;
@@ -20,13 +17,13 @@ let my = {};
 
 function setup() {
   //
-  my.title = '?v=21 Drag mouse to draw on video';
+  my.title = '?v=22 ';
   // Give a little room at bottom for buttons in create_ui
   my.canvas = createCanvas(windowWidth, windowHeight);
 
   my.eraseEnabled = 0;
   my.eraseFlag = 0;
-  my.jumpWalk = 1;
+  my.jumpWalk = 0;
   my.aspectWide = 1;
   my.downSize = 32;
   my.penAlpha = 255;

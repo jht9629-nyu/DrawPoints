@@ -3,7 +3,7 @@
 - Drawing with mouse and touch series
 
 - global search and replace to workaround caching in github pages
-- ?v=21
+- ?v=22
 
 ## [DrawPoints pages](https://jht9629-nyu.github.io/DrawPoints/DrawPoints/)
 
@@ -19,3 +19,13 @@
 ## [VideoDraw pages](https://jht9629-nyu.github.io/DrawPoints/VideoDraw/)
 
 - pixel scanning on top of video camera input
+
+## TODO
+
+```
+- Brush-size
+- use DOM.js
+- x,y sub sample counters
+
+
+```
