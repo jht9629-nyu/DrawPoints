@@ -37,8 +37,9 @@ function create_selections(parentDiv) {
         my.colorStyle = event.target.value;
         console.log('my.colorStyle', my.colorStyle);
       },
+      value: my.colorStyle,
     });
-    sel.value = my.colorStyle;
+    // sel.value = my.colorStyle;
     addSelect(sel);
   }
   {
@@ -48,8 +49,9 @@ function create_selections(parentDiv) {
         my.scanStyle = event.target.value;
         console.log('my.scanStyle', my.scanStyle);
       },
+      value: my.scanStyle,
     });
-    sel.value = my.scanStyle;
+    // sel.value = my.scanStyle;
     addSelect(sel);
   }
   {
@@ -63,8 +65,9 @@ function create_selections(parentDiv) {
         strokeWeightValue = int(event.target.value);
         console.log('my.sizeStyle', my.sizeStyle, 'strokeWeightValue', strokeWeightValue);
       },
+      value: strokeWeightValue,
     });
-    sel.value = strokeWeightValue;
+    // sel.value = strokeWeightValue;
     g_sel = sel;
     addSelect(sel);
   }
@@ -101,7 +104,32 @@ function create_buttons(parentDiv) {
   my.clearButton = addButton('Clear', clearCanvas);
 
   // Auto draw toggle button
-  my.autoButton = addButton('Auto Off', toggleAutoDraw);
+  // my.autoButton = addButton('Auto Off', toggleAutoDraw);
 
-  my.eraseButton = addButton('Erase Off', toggleAutoErase);
+  // !!@ baredom Binder.set does not support as()
+  // my.autoButtonBind = Binder.set(my, { autoDrawOn: my.autoDrawOn });
+
+  my.autoButtonBind = new Binder(my.autoDrawOn);
+
+  my.autoButton = addButton(
+    my.autoButtonBind.as((value) => 'Auto ' + (value ? 'On' : 'Off')),
+    () => (my.autoButtonBind.value = !my.autoButtonBind.value),
+  );
+
+  // my.eraseButton = addButton('Erase Off', toggleAutoErase);
+  my.eraseButtonBind = new Binder(my.eraseFlag);
+  my.eraseButton = addButton(
+    my.eraseButtonBind.as((value) => 'Erase ' + (value ? 'On' : 'Off')),
+    () => (my.eraseButtonBind.value = !my.eraseButtonBind.value),
+  );
 }
+
+// function toggleAutoDraw() {
+//   my.autoDrawOn = !my.autoDrawOn;
+//   my.autoButton.set({ text: 'Auto ' + (my.autoDrawOn ? 'On' : 'Off') });
+// }
+
+// function toggleAutoErase() {
+//   my.eraseFlag = !my.eraseFlag;
+//   my.eraseButton.set({ text: 'Erase ' + (my.eraseFlag ? 'On' : 'Off') });
+// }

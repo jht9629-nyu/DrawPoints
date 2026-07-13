@@ -4,9 +4,9 @@
 // let paths = [];
 let currentPath = [];
 let isDrawing = false;
-let strokeWeightSlider, smoothnessSlider;
-let strokeWeightSpan, smoothnessSpan;
-let strokeWeightValue = 12;
+// let strokeWeightSlider, smoothnessSlider;
+// let strokeWeightSpan, smoothnessSpan;
+let strokeWeightValue = 32;
 let smoothnessValue = 1;
 let controlsDiv;
 let hueOffset = 0;
@@ -84,9 +84,7 @@ function draw() {
   image(my.drawLayer, 0, 0);
 
   // Draw current path being drawn
-  // if (!my.autoDrawOn) {
   drawBezierPath(currentPath, my.canvas);
-  // }
 }
 
 function canvas_touchStarted() {
@@ -163,19 +161,13 @@ function windowResized() {
 //           var index = this._pInst._elements.indexOf(this);
 //
 function clearCanvas() {
-  console.log('clearCanvas enter');
-  // paths = [];
+  // console.log('clearCanvas enter');
   currentPath = [];
   background(0);
   create_layer();
   create_draw_layer();
   init_scan_walk();
-  console.log('clearCanvas leave');
-}
-
-function toggleAutoDraw() {
-  my.autoDrawOn = !my.autoDrawOn;
-  my.autoButton.set({ text: 'Auto ' + (my.autoDrawOn ? 'On' : 'Off') });
+  // console.log('clearCanvas leave');
 }
 
 function toggleAutoErase() {
@@ -185,28 +177,28 @@ function toggleAutoErase() {
 
 function create_layer() {
   // !!@ Must remove layer to avoid memory leaks
-  console.log('create_layer enter');
+  // console.log('create_layer enter');
   if (my.layer) {
-    console.log('create_layer _pInst', my.layer._pInst);
+    // console.log('create_layer _pInst', my.layer._pInst);
     my.layer.remove();
-    console.log('create_layer after remove');
+    // console.log('create_layer after remove');
   }
   my.layer = createGraphics(width, height);
   my.layer.clear();
   my.layer.noFill();
-  console.log('create_layer exit');
+  // console.log('create_layer exit');
 }
 
 function create_draw_layer() {
-  console.log('create_draw_layer enter');
+  // console.log('create_draw_layer enter');
   if (my.drawLayer) {
-    console.log('create_draw_layer ', my.drawLayer._pInst);
+    // console.log('create_draw_layer ', my.drawLayer._pInst);
     my.drawLayer.remove();
   }
   my.drawLayer = createGraphics(width, height);
   my.drawLayer.clear();
   my.drawLayer.noFill();
-  console.log('create_draw_layer exit');
+  // console.log('create_draw_layer exit');
 }
 
 // function toggleAutoMode() {

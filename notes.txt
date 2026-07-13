@@ -1,0 +1,16 @@
+notes.txt
+
+# --
+
+2026-07-13 10:45:59
+
+convert create_ui.js in VIdeoDraw to use baredom as documented in https://github.com/lenincompres/baredom
+
+Converted VideoDraw/create_ui.js from p5.js DOM functions (createDiv, createSelect, createButton, .style(), .position()) to baredom's declarative DOM.let(tag, props) API:
+
+index.html — added the baredom CDN script tag.
+create_ui.js — rewrote element creation: controlsDiv via DOM.let('div', {...}) with CSS properties directly (position/left/top replacing p5's .position()), selects/buttons built the same way, styling moved to baredom's .set({...}) in add_buttonStyle, and event handlers switched from p5's sel.input()/btn.mousePressed() to native onchange/onclick props.
+a_sketch.js — updated the two .html(...) calls on the auto/erase buttons to .set({ text: ... }), since these are now plain DOM elements rather than p5 element wrappers.
+Verified end-to-end with a headless Playwright run against a local server: the controls div renders with correct styling/position, all three selects and four buttons are created, changing selects correctly updates my.colorStyle/my.scanStyle/my.sizeStyle/strokeWeightValue, and button clicks correctly toggle label text — no page errors introduced.
+
+2026-07-13 10:51:41
