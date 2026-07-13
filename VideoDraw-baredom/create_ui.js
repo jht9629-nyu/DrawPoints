@@ -60,15 +60,27 @@ function create_selections(parentDiv) {
       option: sizes.map((n) => ({ text: 'pixel-' + n, value: n })),
       onchange: (event) => {
         // console.log('event', event);
-        g_event = event;
+        // g_event = event;
         my.sizeStyle = event.target.selectedOptions[0].innerText;
-        strokeWeightValue = int(event.target.value);
-        console.log('my.sizeStyle', my.sizeStyle, 'strokeWeightValue', strokeWeightValue);
+        my.pixelSize = int(event.target.value);
+        console.log('my.sizeStyle', my.sizeStyle, 'my.pixelSize', my.pixelSize);
       },
-      value: strokeWeightValue,
+      value: my.pixelSize,
     });
-    // sel.value = strokeWeightValue;
-    g_sel = sel;
+    // g_sel = sel;
+    addSelect(sel);
+  }
+  {
+    let sizes = [1, 2, 4, 8, 12, 16, 24, 32, 40, 48];
+    let sel = DOM.let('select', {
+      option: sizes.map((n) => ({ text: 'brush-' + n, value: n })),
+      onchange: (event) => {
+        my.brushStyle = event.target.selectedOptions[0].innerText;
+        my.brushSize = int(event.target.value);
+        console.log('my.brushStyle', my.brushStyle, 'my.brushSize', my.brushSize);
+      },
+      value: my.brushSize,
+    });
     addSelect(sel);
   }
 }
@@ -101,7 +113,9 @@ function create_buttons(parentDiv) {
   my.fullScreenButton = addButton('Full', fullScreen_action);
 
   // Clear button
-  my.clearButton = addButton('Clear', clearCanvas);
+  my.clear1Button = addButton('Clear-1', clearLayer1);
+
+  my.clear2Button = addButton('Clear-2', clearLayer2);
 
   // Auto draw toggle button
   // my.autoButton = addButton('Auto Off', toggleAutoDraw);

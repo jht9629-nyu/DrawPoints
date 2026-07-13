@@ -18,18 +18,23 @@
 
 ## [VideoDraw pages](https://jht9629-nyu.github.io/DrawPoints/VideoDraw/)
 
-- pixel scanning on top of video camera input
+- video camera input pixel scanning
+
+## [VideoDraw-baredom pages](https://jht9629-nyu.github.io/DrawPoints/VideoDraw-baredom/)
+
+- video pixel scanning with baredom UI
 
 ## TODO
 
 ```
-- Brush-size
-- use BareDOM.js
 - index sub sample counter
+```
 
+## Reference
+
+```
 // https://editor.p5js.org/jht9629-nyu/sketches/f65NFieFu
 // BareDOM test
 https://baredom.org/
-
-
+https://github.com/lenincompres/baredom
 ```

@@ -78,7 +78,7 @@ function add_point(x, y, colorStyle, penStyle, layer) {
   // console.log('add_point x y colorStyle', x, y, colorStyle, penStyle );
   set_currentColor(x, y, colorStyle);
   let strokeColor = currentColor;
-  let weight = strokeWeightValue;
+  let weight = my.brushSize;
   weight = weight / 4 + weight * noise(0.1 * my.frameCount + 20000);
   if (penStyle == 'line') {
     lastPoint = { x, y, strokeColor, weight, frameCount: my.frameCount };
@@ -112,12 +112,12 @@ function set_currentColor(x, y, colorStyle) {
 
 function draw_pixel(x, y, layer) {
   // console.log('draw_pixel x y', x, y, currentColor);
-  x = int(x / strokeWeightValue) * strokeWeightValue;
-  y = int(y / strokeWeightValue) * strokeWeightValue;
-  let m = round(strokeWeightValue * my.pixelMargin);
+  x = int(x / my.pixelSize) * my.pixelSize;
+  y = int(y / my.pixelSize) * my.pixelSize;
+  let m = round(my.pixelSize * my.pixelMargin);
   layer.strokeWeight(0);
   layer.fill(currentColor);
-  layer.rect(x + m, y + m, strokeWeightValue - 2 * m, strokeWeightValue - 2 * m);
+  layer.rect(x + m, y + m, my.pixelSize - 2 * m, my.pixelSize - 2 * m);
 }
 
 function rainbow_color() {

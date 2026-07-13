@@ -4,10 +4,10 @@ function step_scan_pixel() {
   // console.log('step_scan_pixel x y', my.scanX, my.scanY);
   my.video_img = null;
   add_point(my.scanX, my.scanY, 'video', 'pixel', my.layer);
-  my.scanX += strokeWeightValue;
+  my.scanX += my.pixelSize;
   if (my.scanX > width) {
     my.scanX = 0;
-    my.scanY += strokeWeightValue;
+    my.scanY += my.pixelSize;
     if (my.scanY > height) {
       my.scanY = 0;
     }
@@ -20,7 +20,7 @@ function step_scan_walk() {
   if (!my.scanWalkInited) {
     init_scan_walk();
   }
-  let nw = width / strokeWeightValue;
+  let nw = width / my.pixelSize;
   let n = min(nw, my.scanLoop);
   // my.scanIndex
   // my.scan_locs.length
@@ -43,8 +43,8 @@ function init_scan_walk() {
   my.scanIndex = 0;
   my.scanLoop = 1;
   // { width: 600, height: 400, d: 10 }
-  let spiral = new SpiralWalker({ width, height, d: strokeWeightValue });
-  console.log('spiral', spiral);
+  let spiral = new SpiralWalker({ width, height, d: my.pixelSize });
+  // console.log('spiral', spiral);
   my.scan_locs = spiral.points();
 }
 
@@ -55,9 +55,9 @@ function step_scan_line() {
   let y = my.scanY;
   while (x < width) {
     add_point(x, y, 'video', 'pixel', my.layer);
-    x += strokeWeightValue;
+    x += my.pixelSize;
   }
-  my.scanY += strokeWeightValue;
+  my.scanY += my.pixelSize;
   if (my.scanY > height) {
     my.scanY = 0;
   }

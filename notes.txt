@@ -1,7 +1,13 @@
 notes.txt
 
 # --
+2026-07-13 17:38:30
+DONE:
+- Brush-size
+- use BareDOM.js
 
+
+# --
 2026-07-13 10:45:59
 
 convert create_ui.js in VIdeoDraw to use baredom as documented in https://github.com/lenincompres/baredom
@@ -14,3 +20,4 @@ a_sketch.js — updated the two .html(...) calls on the auto/erase buttons to .s
 Verified end-to-end with a headless Playwright run against a local server: the controls div renders with correct styling/position, all three selects and four buttons are created, changing selects correctly updates my.colorStyle/my.scanStyle/my.sizeStyle/strokeWeightValue, and button clicks correctly toggle label text — no page errors introduced.
 
 2026-07-13 10:51:41
+

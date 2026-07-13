@@ -6,7 +6,7 @@ let currentPath = [];
 let isDrawing = false;
 // let strokeWeightSlider, smoothnessSlider;
 // let strokeWeightSpan, smoothnessSpan;
-let strokeWeightValue = 32;
+// let my.pixelSize = 32;
 let smoothnessValue = 1;
 let controlsDiv;
 let hueOffset = 0;
@@ -21,6 +21,8 @@ function setup() {
   // Give a little room at bottom for buttons in create_ui
   my.canvas = createCanvas(windowWidth, windowHeight);
 
+  my.pixelSize = 32;
+  my.brushSize = 32;
   my.eraseEnabled = 0;
   my.eraseFlag = 0;
   my.jumpWalk = 0;
@@ -154,20 +156,20 @@ function windowResized() {
   clearCanvas();
 }
 
-// !!@ p5.js error
-//    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.13/lib/p5.js"></script>
-//
-//         _main.default.Element.prototype.remove = function () {
-//           var index = this._pInst._elements.indexOf(this);
-//
 function clearCanvas() {
-  // console.log('clearCanvas enter');
+  clearLayer1();
+  clearLayer2();
+}
+
+function clearLayer1() {
   currentPath = [];
   background(0);
   create_layer();
-  create_draw_layer();
   init_scan_walk();
-  // console.log('clearCanvas leave');
+}
+
+function clearLayer2() {
+  create_draw_layer();
 }
 
 function create_layer() {
