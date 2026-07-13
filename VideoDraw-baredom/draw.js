@@ -8,7 +8,7 @@ function draw_to(x, y) {
 }
 
 function auto_draw_check() {
-  if (!my.autoButtonBind.value || frameCount % 2 != 0) return;
+  if (!my.autoDrawOn || frameCount % 2 != 0) return;
   if (!isDrawing) {
     start_draw();
     // Seed each new auto path from the last point for continuity.
@@ -17,7 +17,7 @@ function auto_draw_check() {
     return;
   }
   if (frameCount % 100 == 0) {
-    if (my.eraseButtonBind.value) {
+    if (my.eraseFlag) {
       my.drawLayer.erase();
     } else {
       my.drawLayer.noErase();

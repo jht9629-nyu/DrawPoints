@@ -106,20 +106,25 @@ function create_buttons(parentDiv) {
   // Auto draw toggle button
   // my.autoButton = addButton('Auto Off', toggleAutoDraw);
 
-  // !!@ baredom Binder.set does not support as()
-  // my.autoButtonBind = Binder.set(my, { autoDrawOn: my.autoDrawOn });
-
-  my.autoButtonBind = new Binder(my.autoDrawOn);
+  // my._autoDrawOn is the Binder object
+  Binder.set(my, { autoDrawOn: my.autoDrawOn });
   my.autoButton = addButton(
-    my.autoButtonBind.as((value) => 'Auto ' + (value ? 'On' : 'Off')),
-    () => (my.autoButtonBind.value = !my.autoButtonBind.value),
+    my._autoDrawOn.as((value) => 'Auto ' + (value ? 'On' : 'Off')),
+    () => (my.autoDrawOn = !my.autoDrawOn),
   );
 
+  // my.autoButtonBind = new Binder(my.autoDrawOn);
+  // my.autoButton = addButton(
+  //   my.autoButtonBind.as((value) => 'Auto ' + (value ? 'On' : 'Off')),
+  //   () => (my.autoButtonBind.value = !my.autoButtonBind.value),
+  // );
+
   // my.eraseButton = addButton('Erase Off', toggleAutoErase);
-  my.eraseButtonBind = new Binder(my.eraseFlag);
-  my.eraseButton = addButton(
-    my.eraseButtonBind.as((value) => 'Erase ' + (value ? 'On' : 'Off')),
-    () => (my.eraseButtonBind.value = !my.eraseButtonBind.value),
+
+  Binder.set(my, { eraseFlag: my.eraseFlag });
+  my.autoButton = addButton(
+    my._eraseFlag.as((value) => 'Erase ' + (value ? 'On' : 'Off')),
+    () => (my.eraseFlag = !my.eraseFlag),
   );
 }
 
