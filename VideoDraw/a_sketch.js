@@ -175,12 +175,12 @@ function clearCanvas() {
 
 function toggleAutoDraw() {
   my.autoDrawOn = !my.autoDrawOn;
-  my.autoButton.html('Auto ' + (my.autoDrawOn ? 'On' : 'Off'));
+  my.autoButton.set({ text: 'Auto ' + (my.autoDrawOn ? 'On' : 'Off') });
 }
 
 function toggleAutoErase() {
   my.eraseFlag = !my.eraseFlag;
-  my.eraseButton.html('Erase ' + (my.eraseFlag ? 'On' : 'Off'));
+  my.eraseButton.set({ text: 'Erase ' + (my.eraseFlag ? 'On' : 'Off') });
 }
 
 function create_layer() {
