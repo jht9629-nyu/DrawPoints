@@ -170,11 +170,6 @@ function clearCanvas() {
   // console.log('clearCanvas leave');
 }
 
-function toggleAutoErase() {
-  my.eraseFlag = !my.eraseFlag;
-  my.eraseButton.set({ text: 'Erase ' + (my.eraseFlag ? 'On' : 'Off') });
-}
-
 function create_layer() {
   // !!@ Must remove layer to avoid memory leaks
   // console.log('create_layer enter');

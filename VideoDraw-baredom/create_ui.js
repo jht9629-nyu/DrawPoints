@@ -110,7 +110,6 @@ function create_buttons(parentDiv) {
   // my.autoButtonBind = Binder.set(my, { autoDrawOn: my.autoDrawOn });
 
   my.autoButtonBind = new Binder(my.autoDrawOn);
-
   my.autoButton = addButton(
     my.autoButtonBind.as((value) => 'Auto ' + (value ? 'On' : 'Off')),
     () => (my.autoButtonBind.value = !my.autoButtonBind.value),
