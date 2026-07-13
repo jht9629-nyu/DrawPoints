@@ -9,13 +9,12 @@ function render_capture() {
   let capv = my.capture;
   let img = capv.get();
   // extreme downsampling for distortion
-  if (0) {
+  if (my.aspectWide) {
     // keep width, adjust height for aspect ratio
     img.resize(my.downSize, 0);
     let ratio = capv.height / capv.width;
     image(img, 0, 0, width, width * ratio);
-  }
-  {
+  } else {
     // keep height, adjust width for aspect ratio
     img.resize(0, my.downSize);
     let ratio = capv.width / capv.height;
@@ -30,13 +29,12 @@ function video_color(x, y) {
     my.video_img = my.capture.get();
   }
   let img = my.video_img;
-  if (0) {
+  if (my.aspectWide) {
     // keep width, adjust height for aspect ratio
     let ratio = img.height / img.width;
     x = map(x, 0, width, 0, img.width, true);
     y = map(y, 0, width * ratio, 0, img.height, true);
-  }
-  {
+  } else {
     // keep height, adjust width for aspect ratio
     let ratio = img.width / img.height;
     x = map(x, 0, height * ratio, 0, img.width, true);

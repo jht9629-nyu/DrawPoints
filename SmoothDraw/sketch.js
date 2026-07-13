@@ -19,7 +19,7 @@ let pathsMax = 1000;
 let my = {};
 
 function setup() {
-  my.title = '?v=6 Drag mouse to draw smooth Bézier curves';
+  my.title = '?v=21 Drag mouse to draw smooth Bézier curves';
   my.canvas = createCanvas(windowWidth, windowHeight - 170);
 
   colorMode(RGB, 255);
@@ -116,7 +116,7 @@ function draw_walk() {
   let x = width * noise(0.005 * my.frameCount);
   let y = height * noise(0.005 * my.frameCount + 10000);
   if (lastPoint) {
-    console.log('draw_walk diff x y', lastPoint.x - x, lastPoint.y - y)
+    // console.log('draw_walk diff x y', lastPoint.x - x, lastPoint.y - y)
   }
   add_point(x, y);
 }

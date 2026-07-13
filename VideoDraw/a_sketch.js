@@ -8,7 +8,7 @@ let strokeWeightSlider, smoothnessSlider;
 let strokeWeightSpan, smoothnessSpan;
 let strokeWeightValue = 12;
 let smoothnessValue = 1;
-let clearButton, autoButton;
+// let clearButton, autoButton;
 let controlsDiv;
 // let isColorful = true;
 let hueOffset = 0;
@@ -20,9 +20,14 @@ let my = {};
 
 function setup() {
   //
-  my.title = '?v=20 Drag mouse to draw on video';
+  my.title = '?v=21 Drag mouse to draw on video';
   // Give a little room at bottom for buttons in create_ui
-  my.canvas = createCanvas(windowWidth, windowHeight - 100);
+  my.canvas = createCanvas(windowWidth, windowHeight);
+
+  my.eraseEnabled = 0;
+  my.eraseFlag = 0;
+  my.jumpWalk = 1;
+  my.aspectWide = 1;
   my.downSize = 32;
   my.penAlpha = 255;
   my.deltaTimeLimit = 0.1;
@@ -54,6 +59,8 @@ function init_vars() {
   my.deltaTimeSeconds = 0;
   my.pixelMargin = 0.1;
   my.frameCount = 0;
+  // my.noiseSeed = 20260712;
+  // my.noise = new Noise(my.noiseSeed);
   my.autoDrawOn = false;
   lastPoint = { x: width / 2, y: height / 2 };
   my.colorStyle = 'video';
@@ -80,7 +87,9 @@ function draw() {
   image(my.drawLayer, 0, 0);
 
   // Draw current path being drawn
+  // if (!my.autoDrawOn) {
   drawBezierPath(currentPath, my.canvas);
+  // }
 }
 
 function canvas_touchStarted() {
@@ -169,7 +178,12 @@ function clearCanvas() {
 
 function toggleAutoDraw() {
   my.autoDrawOn = !my.autoDrawOn;
-  autoButton.html('Auto ' + (my.autoDrawOn ? 'On' : 'Off'));
+  my.autoButton.html('Auto ' + (my.autoDrawOn ? 'On' : 'Off'));
+}
+
+function toggleAutoErase() {
+  my.eraseFlag = !my.eraseFlag;
+  my.eraseButton.html('Erase ' + (my.eraseFlag ? 'On' : 'Off'));
 }
 
 function create_layer() {

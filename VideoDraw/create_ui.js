@@ -4,7 +4,7 @@ function create_ui() {
   // Main controls container
   controlsDiv = createDiv('');
   // Position below the canvas
-  controlsDiv.position(10, height);
+  controlsDiv.position(10, height - 100);
   controlsDiv.style('background', 'rgba(0,0,0,0.8)');
   controlsDiv.style('color', 'white');
   controlsDiv.style('padding', '15px');
@@ -65,16 +65,16 @@ function create_selections(buttonDiv) {
     let sel = createSelect();
     g_sel = sel;
     addSelect(sel);
-    sel.option('pico', 1);
-    sel.option('nano', 2);
-    sel.option('micro', 4);
-    sel.option('tiny', 8);
-    sel.option('small', 12);
-    sel.option('medium', 16);
-    sel.option('large', 24);
-    sel.option('XL', 32);
-    sel.option('XXL', 40);
-    sel.option('XXXL', 48);
+    sel.option('pixel-1', 1);
+    sel.option('pixel-2', 2);
+    sel.option('pixel-4', 4);
+    sel.option('pixel-8', 8);
+    sel.option('pixel-12', 12);
+    sel.option('pixel-16', 16);
+    sel.option('pixel-24', 24);
+    sel.option('pixel-32', 32);
+    sel.option('pixel-40', 40);
+    sel.option('pixel-48', 48);
     sel.input(function (event) {
       // console.log('event', event);
       g_event = event;
@@ -116,34 +116,13 @@ function create_buttons(buttonDiv) {
   addButton(my.fullScreenButton, fullScreen_action);
 
   // Clear button
-  clearButton = createButton('Clear');
-  addButton(clearButton, clearCanvas);
+  my.clearButton = createButton('Clear');
+  addButton(my.clearButton, clearCanvas);
 
   // Auto draw toggle button
-  autoButton = createButton('Auto Off');
-  addButton(autoButton, toggleAutoDraw);
+  my.autoButton = createButton('Auto Off');
+  addButton(my.autoButton, toggleAutoDraw);
+
+  my.eraseButton = createButton('Erase Off');
+  addButton(my.eraseButton, toggleAutoErase);
 }
-
-// function create_sliders() {
-//   // Stroke weight controls
-//   let strokeDiv = createDiv('');
-//   strokeDiv.parent(controlsDiv);
-//   strokeDiv.style('margin', '8px 0');
-
-//   let strokeLabel = createSpan('Stroke Weight: ');
-//   strokeLabel.parent(strokeDiv);
-
-//   // createSlider(min, max, [value], [step])
-//   strokeWeightSlider = createSlider(1, 128, strokeWeightValue);
-//   strokeWeightSlider.parent(strokeDiv);
-//   strokeWeightSlider.style('margin', '0 10px');
-
-//   strokeWeightSpan = createSpan(strokeWeightValue + '');
-//   strokeWeightSpan.parent(strokeDiv);
-
-//   // Update stroke weight display when slider changes
-//   strokeWeightSlider.input(() => {
-//     strokeWeightValue = strokeWeightSlider.value();
-//     strokeWeightSpan.html(strokeWeightValue);
-//   });
-// }
