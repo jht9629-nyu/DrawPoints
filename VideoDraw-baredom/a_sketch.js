@@ -17,7 +17,7 @@ let my = {};
 
 function setup() {
   //
-  my.title = '?v=25 ';
+  my.title = '?v=26 ';
   // Give a little room at bottom for buttons in create_ui
   my.canvas = createCanvas(windowWidth, windowHeight);
 
