@@ -28,10 +28,6 @@ function auto_draw_check() {
   auto_draw_walk();
 }
 
-function sample_noise(x, y, z) {
-  return my.noise.noise(x, y, z);
-}
-
 function auto_draw_walk() {
   let x;
   let y;
@@ -41,6 +37,11 @@ function auto_draw_walk() {
   } else {
     x = width * noise(0.005 * my.frameCount);
     y = height * noise(0.005 * my.frameCount + 10000);
+    if (!my.noiseWalk) {
+      // restrict walking brush to grid
+      x -= x % my.pixelSize;
+      y -= y % my.pixelSize;
+    }
   }
   //
   if (lastPoint) {
@@ -94,6 +95,12 @@ function set_currentColor(x, y, colorStyle) {
   if (colorStyle == 'rainbow') {
     currentColor = rainbow_color();
   } else if (colorStyle == 'video') {
+    if (!my.noiseWalk) {
+      // x = int(random(width));
+      // y = int(random(height));
+      // x = width - x;
+      y = height - y;
+    }
     currentColor = video_color(x, y);
   } else if (colorStyle == 'white') {
     colorMode(RGB, 255);
@@ -110,6 +117,7 @@ function set_currentColor(x, y, colorStyle) {
   }
 }
 
+// !!@ retire draw_pixel
 function draw_pixel(x, y, layer) {
   // console.log('draw_pixel x y', x, y, currentColor);
   x = int(x / my.pixelSize) * my.pixelSize;
