@@ -21,6 +21,7 @@ function setup() {
   // Give a little room at bottom for buttons in create_ui
   my.canvas = createCanvas(windowWidth, windowHeight);
 
+  my.scanFlag = 1;
   my.pixelSize = 32;
   my.brushSize = 32;
   my.eraseEnabled = 0;
@@ -132,6 +133,7 @@ function mouse_onCanvas() {
 }
 
 function check_scanStyle() {
+  if (!my.scanFlag) return;
   if (my.scanStyle == 'spiral') {
     step_scan_walk();
   } else if (my.scanStyle == 'line') {

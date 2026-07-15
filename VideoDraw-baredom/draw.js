@@ -99,7 +99,7 @@ function set_currentColor(x, y, colorStyle) {
       // x = int(random(width));
       // y = int(random(height));
       // x = width - x;
-      y = height - y;
+      // y = height - y;
     }
     currentColor = video_color(x, y);
   } else if (colorStyle == 'white') {
