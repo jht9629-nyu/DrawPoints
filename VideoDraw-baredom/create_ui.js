@@ -135,15 +135,28 @@ function create_buttons(parentDiv) {
     () => (my.scanFlag = !my.scanFlag),
   );
 
-  if (0) {
+  my.saveButton = addButton('Save', saveButtonAction);
+}
+
+function saveButtonAction() {
+  // from chat-g
+  const today = new Date();
+  const dateString =
+    `${today.getFullYear()}-` +
+    `${String(today.getMonth() + 1).padStart(2, '0')}-` +
+    `${String(today.getDate()).padStart(2, '0')}`;
+  // console.log(dateString); // e.g. "2026-07-15"
+  saveCanvas('VideoDraw-baredom-' + dateString, 'jpg');
+}
+
+/*
     Binder.set(my, { eraseFlag: my.eraseFlag });
     my.eraseButton = addButton(
       // text, onclick
       my._eraseFlag.as((value) => 'Erase ' + (value ? 'On' : 'Off')),
       () => (my.eraseFlag = !my.eraseFlag),
     );
-  }
-}
+*/
 
 // function toggleAutoDraw() {
 //   my.autoDrawOn = !my.autoDrawOn;
