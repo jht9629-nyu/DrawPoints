@@ -43,6 +43,7 @@ function step_scan_draw(x, y) {
   let m = round(my.pixelSize * my.pixelMargin);
   layer.strokeWeight(0);
   layer.fill(vidColor);
+  // layer.fill(0);
   if (my.shapeLabel == 'triangle') {
     // tessellating triangle mosaic: half-width columns alternate up/down triangles
     let s = my.pixelSize;
@@ -67,7 +68,11 @@ function step_scan_draw(x, y) {
     let col = round(x / colWidth);
     let rowOffset = col % 2 != 0 ? rowHeight / 2 : 0;
     let cellX = col * colWidth + r;
-    let cellY = round((y - rowOffset) / rowHeight) * rowHeight + rowOffset + r;
+    // round the unshifted y first (always near an integer multiple of rowHeight,
+    // so rounding has a full margin) then apply the half-row offset afterward;
+    // rounding (y - rowOffset) directly lands exactly on a tie boundary and
+    // flips unpredictably with float drift, skipping whole rows
+    let cellY = round(y / rowHeight) * rowHeight + rowOffset + r;
     let rDraw = r - m;
     layer.beginShape();
     for (let i = 0; i < 6; i++) {

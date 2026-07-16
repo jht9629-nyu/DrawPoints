@@ -67,7 +67,7 @@ function create_selections(parentDiv) {
     addSelect(sel);
   }
   {
-    let sizes = [1, 2, 4, 8, 12, 16, 24, 32, 40, 48];
+    let sizes = [1, 2, 4, 8, 12, 16, 24, 32, 40, 48, 64];
     let sel = DOM.let('select', {
       option: sizes.map((n) => ({ text: 'pixel-' + n, value: n })),
       onchange: (event) => {
