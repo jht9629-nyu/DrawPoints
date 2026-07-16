@@ -1,7 +1,18 @@
 //
 
 function create_capture() {
-  my.capture = createCapture(VIDEO, { flipped: true });
+  if (my.capture) {
+    my.capture.remove();
+  }
+  let facingMode = my.cameraFacing || 'user';
+  my.capture = createCapture(
+    {
+      video: { facingMode: { ideal: facingMode } },
+      audio: false,
+      // mirror the front camera, but not the back camera
+      flipped: facingMode === 'user',
+    },
+  );
   my.capture.hide();
 }
 

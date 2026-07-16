@@ -32,6 +32,7 @@ function setup() {
   my.jumpWalk = 0;
   my.aspectWide = 1;
   my.downSize = 32;
+  my.cameraFacing = 'user';
   my.penAlpha = 255;
   my.deltaTimeLimit = 0.1;
   // my.deltaTimeLimit = 0;

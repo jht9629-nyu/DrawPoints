@@ -1,6 +1,10 @@
 notes.txt
 
 # --
+2026-07-16 19:45:42
+
+and select ui option to chose between front facing and back facing camera in create_capture
+
 2026-07-16 19:29:16
 
 >> provided screen shoots to fix skipped line in pixel size 32 and 16

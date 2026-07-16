@@ -67,6 +67,21 @@ function create_selections(parentDiv) {
     addSelect(sel);
   }
   {
+    let sel = DOM.let('select', {
+      option: [
+        { text: 'Front', value: 'user' },
+        { text: 'Back', value: 'environment' },
+      ],
+      onchange: (event) => {
+        my.cameraFacing = event.target.value;
+        console.log('my.cameraFacing', my.cameraFacing);
+        create_capture();
+      },
+      value: my.cameraFacing,
+    });
+    addSelect(sel);
+  }
+  {
     let sizes = [1, 2, 4, 8, 12, 16, 24, 32, 40, 48, 64];
     let sel = DOM.let('select', {
       option: sizes.map((n) => ({ text: 'pixel-' + n, value: n })),
