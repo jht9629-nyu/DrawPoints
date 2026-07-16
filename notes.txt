@@ -1,6 +1,11 @@
 notes.txt
 
 # --
+2026-07-16 11:31:25
+
+claude for triangle shape
+
+# --
 2026-07-13 17:38:30
 DONE:
 - Brush-size

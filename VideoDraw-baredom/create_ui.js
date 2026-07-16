@@ -32,6 +32,18 @@ function create_selections(parentDiv) {
   }
   {
     let sel = DOM.let('select', {
+      option: ['square', 'circle', 'triangle', 'hex'],
+      onchange: (event) => {
+        my.shapeLabel = event.target.value;
+        console.log('my.shapeLabel', my.shapeLabel);
+      },
+      value: my.shapeLabel,
+    });
+    // sel.value = my.colorStyle;
+    addSelect(sel);
+  }
+  if (0) {
+    let sel = DOM.let('select', {
       option: ['rainbow', 'video', 'white', 'red', 'green', 'gold'],
       onchange: (event) => {
         my.colorStyle = event.target.value;
@@ -42,7 +54,7 @@ function create_selections(parentDiv) {
     // sel.value = my.colorStyle;
     addSelect(sel);
   }
-  {
+  if (0) {
     let sel = DOM.let('select', {
       option: ['none', 'line', 'spiral', 'pixel'],
       onchange: (event) => {
@@ -61,9 +73,9 @@ function create_selections(parentDiv) {
       onchange: (event) => {
         // console.log('event', event);
         // g_event = event;
-        my.sizeStyle = event.target.selectedOptions[0].innerText;
+        my.pixelSizeLabel = event.target.selectedOptions[0].innerText;
         my.pixelSize = int(event.target.value);
-        console.log('my.sizeStyle', my.sizeStyle, 'my.pixelSize', my.pixelSize);
+        console.log('my.pixelSizeLabel', my.pixelSizeLabel, 'my.pixelSize', my.pixelSize);
       },
       value: my.pixelSize,
     });
@@ -75,9 +87,9 @@ function create_selections(parentDiv) {
     let sel = DOM.let('select', {
       option: sizes.map((n) => ({ text: 'brush-' + n, value: n })),
       onchange: (event) => {
-        my.brushStyle = event.target.selectedOptions[0].innerText;
+        my.brushSizeLabel = event.target.selectedOptions[0].innerText;
         my.brushSize = int(event.target.value);
-        console.log('my.brushStyle', my.brushStyle, 'my.brushSize', my.brushSize);
+        console.log('my.brushSizeLabel', my.brushSizeLabel, 'my.brushSize', my.brushSize);
       },
       value: my.brushSize,
     });

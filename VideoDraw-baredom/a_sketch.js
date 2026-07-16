@@ -21,6 +21,8 @@ function setup() {
   // Give a little room at bottom for buttons in create_ui
   my.canvas = createCanvas(windowWidth, windowHeight);
 
+  my.shapeLabel = 'triangle';
+  // my.shapeLabel = 'square';
   my.scanFlag = 1;
   my.pixelSize = 32;
   my.brushSize = 32;
@@ -68,9 +70,10 @@ function init_vars() {
   my.scanStyle = 'line';
   // my.scanStyle = 'spiral';
   // my.scanStyle = 'none';
-  my.sizeStyle = 'thick';
+  my.pixelSizeLabel = 'thick';
   my.scanX = 0;
   my.scanY = 0;
+  my.scanYCount = 0;
 }
 
 function draw() {
