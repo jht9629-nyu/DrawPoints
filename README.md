@@ -27,6 +27,7 @@
 ## TODO
 
 ```
+- shape options: square / hex / diamon, replaceo video option
 - index sub sample counter
 ```
 

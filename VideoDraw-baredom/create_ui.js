@@ -138,6 +138,8 @@ function create_buttons(parentDiv) {
   my.saveButton = addButton('Save', saveButtonAction);
 }
 
+let saveCounter = 0;
+
 function saveButtonAction() {
   // from chat-g
   const today = new Date();
@@ -146,7 +148,11 @@ function saveButtonAction() {
     `${String(today.getMonth() + 1).padStart(2, '0')}-` +
     `${String(today.getDate()).padStart(2, '0')}`;
   // console.log(dateString); // e.g. "2026-07-15"
-  saveCanvas('VideoDraw-baredom-' + dateString, 'jpg');
+
+  saveCounter++;
+  let numStr = String(saveCounter).padStart(3, '0');
+
+  saveCanvas('VideoDraw-baredom-' + dateString + '-' + numStr, 'jpg');
 }
 
 /*
