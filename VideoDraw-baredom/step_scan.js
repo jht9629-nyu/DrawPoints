@@ -8,6 +8,7 @@ function step_scan_line() {
   let xStep = my.pixelSize;
   let yStep = my.pixelSize;
   let isTriangle = my.shapeLabel == 'triangle';
+  let isHex = my.shapeLabel == 'hex';
   my.xOffset = 0;
   if (isTriangle) {
     // triangles tile in half-width columns and rows equal to their own height
@@ -16,6 +17,11 @@ function step_scan_line() {
     if (my.scanYCount % 2 == 1) {
       my.xOffset = -xStep;
     }
+  } else if (isHex) {
+    // flat-top hexagons tile in 3/4-width columns and rows equal to their flat-to-flat height
+    let r = my.pixelSize / 2;
+    xStep = r * 1.5;
+    yStep = r * sqrt(3);
   }
   while (x < width) {
     // add_point(x, y, 'video', 'pixel', my.layer);
@@ -53,23 +59,30 @@ function step_scan_draw(x, y) {
     }
     return;
   }
+  if (my.shapeLabel == 'hex') {
+    // tessellating flat-top hex mosaic: 3/4-width columns, odd columns offset by half a row
+    let r = my.pixelSize / 2;
+    let colWidth = r * 1.5;
+    let rowHeight = r * sqrt(3);
+    let col = round(x / colWidth);
+    let rowOffset = col % 2 != 0 ? rowHeight / 2 : 0;
+    let cellX = col * colWidth + r;
+    let cellY = round((y - rowOffset) / rowHeight) * rowHeight + rowOffset + r;
+    let rDraw = r - m;
+    layer.beginShape();
+    for (let i = 0; i < 6; i++) {
+      let angle = (TWO_PI / 6) * i;
+      layer.vertex(cellX + rDraw * cos(angle), cellY + rDraw * sin(angle));
+    }
+    layer.endShape(CLOSE);
+    return;
+  }
   x = int(x / my.pixelSize) * my.pixelSize;
   y = int(y / my.pixelSize) * my.pixelSize;
   if (my.shapeLabel == 'square') {
     layer.rect(x + m, y + m, my.pixelSize - 2 * m, my.pixelSize - 2 * m);
   } else if (my.shapeLabel == 'circle') {
     layer.ellipse(x + my.pixelSize / 2, y + my.pixelSize / 2, my.pixelSize - 2 * m, my.pixelSize - 2 * m);
-  } else if (my.shapeLabel == 'hex') {
-    let r = (my.pixelSize - 2 * m) / 2;
-    let h = r * sqrt(3);
-    layer.beginShape();
-    for (let i = 0; i < 6; i++) {
-      let angle = (TWO_PI / 6) * i;
-      let vx = x + my.pixelSize / 2 + r * cos(angle);
-      let vy = y + my.pixelSize / 2 + r * sin(angle);
-      layer.vertex(vx, vy);
-    }
-    layer.endShape(CLOSE);
   }
 }
 

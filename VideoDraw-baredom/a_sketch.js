@@ -21,7 +21,8 @@ function setup() {
   // Give a little room at bottom for buttons in create_ui
   my.canvas = createCanvas(windowWidth, windowHeight);
 
-  my.shapeLabel = 'triangle';
+  my.shapeLabel = 'hex';
+  // my.shapeLabel = 'triangle';
   // my.shapeLabel = 'square';
   my.scanFlag = 1;
   my.pixelSize = 32;
