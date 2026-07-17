@@ -39,7 +39,6 @@ function create_selections(parentDiv) {
       },
       value: my.shapeLabel,
     });
-    // sel.value = my.colorStyle;
     addSelect(sel);
   }
   if (0) {
