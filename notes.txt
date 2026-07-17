@@ -1,6 +1,25 @@
 notes.txt
 
 # --
+2026-07-16 20:01:41
+
+what is best skill to add to verify javascript code in this project
+/run-skill-generator
+
+For this project I'd add a project run skill via /run-skill-generator, not a
+linting skill — this is a plain static p5.js sketch with no package.json/build
+step and no node in this environment, so ESLint/tsc-style syntax checking isn't
+available here anyway (I had to fall back to osascript -l JavaScript just to
+eval-check syntax just now). A run skill would capture the parts that actually
+took work today: serving the folder (python3 -m http.server, since createCapture
+needs localhost/HTTPS) and noting that camera-facing behavior needs a real
+browser + real device, not headless automation.
+
+The tradeoff: it verifies the app launches cleanly, not full runtime
+correctness of camera switching — that still needs a human eyeball on a real
+device with two cameras. Want me to generate that skill now?
+
+
 2026-07-16 19:45:42
 
 and select ui option to chose between front facing and back facing camera in create_capture
