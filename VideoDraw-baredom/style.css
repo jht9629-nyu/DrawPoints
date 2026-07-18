@@ -17,23 +17,11 @@ select {
   border-radius: 4px;
   cursor: pointer;
 }
-/*
-    // Position below the canvas
-    position: 'absolute',
-    left: '10px',
-    top: height - 80 + 'px',
-    background: 'rgba(0,0,0,0.8)',
-    color: 'white',
-    padding: '15px',
-    borderRadius: '8px',
-    fontFamily: 'Arial, sans-serif',
-*/
 
 .bottom-right {
   position: fixed;
   left: 1rem;
   bottom: 1rem;
-  /* height: 80px; */
   width: auto;
   background: rgba(0, 0, 0, 0.8);
   color: white;

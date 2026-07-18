@@ -1,54 +1,14 @@
 //
 
 function create_ui() {
-  // !!@ Failes
-  // const CSS = {
-  //   'button,select': {
-  //     background: '#4CAF50',
-  //     color: 'white',
-  //     border: 'none',
-  //     padding: '8px 16px',
-  //     margin: '5px',
-  //     borderRadius: '4px',
-
-  //     cursor: 'pointer',
-  //   },
-  // };
-  // DOM.set({
-  //   css: CSS,
-  // });
-
-  // !!@ try external css:
-  // /Users/jht2/Documents/projects/repos/W-C-Art-Scroller/style.css
-
   // Main controls container
   controlsDiv = DOM.let('div', {
-    // Position below the canvas
-    // position: 'absolute',
-    // left: '10px',
-    // top: height - 80 + 'px',
-    // background: 'rgba(0,0,0,0.8)',
-    // color: 'white',
-    // padding: '15px',
-    // borderRadius: '8px',
-    // fontFamily: 'Arial, sans-serif',
     class: 'bottom-right',
   });
   document.body.append(controlsDiv);
 
   // Title
   controlsDiv.append(DOM.let('span', { text: my.title }));
-
-  // let innerControl = DOM.let('div', {
-  //   background: '#4CAF50',
-  //   color: 'white',
-  //   border: 'none',
-  //   padding: '8px 16px',
-  //   margin: '5px',
-  //   borderRadius: '4px',
-  //   cursor: 'pointer',
-  // });
-  // controlsDiv.append(innerControl);
 
   create_selections(controlsDiv);
 
@@ -59,7 +19,6 @@ function create_ui() {
 
 function create_selections(parentDiv) {
   function addSelect(sel) {
-    // add_buttonStyle(sel);
     parentDiv.append(sel);
   }
   {
@@ -71,30 +30,6 @@ function create_selections(parentDiv) {
       },
       value: my.shapeLabel,
     });
-    addSelect(sel);
-  }
-  if (0) {
-    let sel = DOM.let('select', {
-      option: ['rainbow', 'video', 'white', 'red', 'green', 'gold'],
-      onchange: (event) => {
-        my.colorStyle = event.target.value;
-        console.log('my.colorStyle', my.colorStyle);
-      },
-      value: my.colorStyle,
-    });
-    // sel.value = my.colorStyle;
-    addSelect(sel);
-  }
-  if (0) {
-    let sel = DOM.let('select', {
-      option: ['none', 'line', 'spiral', 'pixel'],
-      onchange: (event) => {
-        my.scanStyle = event.target.value;
-        console.log('my.scanStyle', my.scanStyle);
-      },
-      value: my.scanStyle,
-    });
-    // sel.value = my.scanStyle;
     addSelect(sel);
   }
   {
@@ -147,22 +82,9 @@ function create_selections(parentDiv) {
 let g_event;
 let g_sel;
 
-// function add_buttonStyle(elt) {
-//   elt.set({
-//     background: '#4CAF50',
-//     color: 'white',
-//     border: 'none',
-//     padding: '8px 16px',
-//     margin: '5px',
-//     borderRadius: '4px',
-//     cursor: 'pointer',
-//   });
-// }
-
 function create_buttons(parentDiv) {
   function addButton(text, onclick) {
     let btn = DOM.let('button', { text, onclick });
-    // add_buttonStyle(btn);
     parentDiv.append(btn);
     return btn;
   }
@@ -174,9 +96,6 @@ function create_buttons(parentDiv) {
   my.clear1Button = addButton('Clear-1', clearLayer1);
 
   my.clear2Button = addButton('Clear-2', clearLayer2);
-
-  // Auto draw toggle button
-  // my.autoButton = addButton('Auto Off', toggleAutoDraw);
 
   // my._autoDrawOn is the Binder object
   Binder.set(my, { autoDrawOn: my.autoDrawOn });
@@ -230,4 +149,29 @@ function saveButtonAction() {
 // function toggleAutoErase() {
 //   my.eraseFlag = !my.eraseFlag;
 //   my.eraseButton.set({ text: 'Erase ' + (my.eraseFlag ? 'On' : 'Off') });
+// }
+
+// {
+//   let sel = DOM.let('select', {
+//     option: ['rainbow', 'video', 'white', 'red', 'green', 'gold'],
+//     onchange: (event) => {
+//       my.colorStyle = event.target.value;
+//       console.log('my.colorStyle', my.colorStyle);
+//     },
+//     value: my.colorStyle,
+//   });
+//   // sel.value = my.colorStyle;
+//   addSelect(sel);
+// }
+// {
+//   let sel = DOM.let('select', {
+//     option: ['none', 'line', 'spiral', 'pixel'],
+//     onchange: (event) => {
+//       my.scanStyle = event.target.value;
+//       console.log('my.scanStyle', my.scanStyle);
+//     },
+//     value: my.scanStyle,
+//   });
+//   // sel.value = my.scanStyle;
+//   addSelect(sel);
 // }
