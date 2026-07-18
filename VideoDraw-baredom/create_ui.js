@@ -22,17 +22,7 @@ function create_selections(parentDiv) {
     parentDiv.append(sel);
   }
   {
-    let sel = DOM.let('select', {
-      option: ['square', 'circle', 'triangle', 'hex'],
-      onchange: (event) => {
-        my.shapeLabel = event.target.value;
-        console.log('my.shapeLabel', my.shapeLabel);
-      },
-      value: my.shapeLabel,
-    });
-    addSelect(sel);
-  }
-  {
+    // my.cameraFacing = user/Front | environment/Back
     let sel = DOM.let('select', {
       option: [
         { text: 'Front', value: 'user' },
@@ -48,6 +38,19 @@ function create_selections(parentDiv) {
     addSelect(sel);
   }
   {
+    // my.shapeLabel = square | circle | triangle | hex
+    let sel = DOM.let('select', {
+      option: ['square', 'circle', 'triangle', 'hex'],
+      onchange: (event) => {
+        my.shapeLabel = event.target.value;
+        console.log('my.shapeLabel', my.shapeLabel);
+      },
+      value: my.shapeLabel,
+    });
+    addSelect(sel);
+  }
+  {
+    // my.pixelSize = 1, 2, 4, 8, 12, 16, 24, 32, 40, 48, 64
     let sizes = [1, 2, 4, 8, 12, 16, 24, 32, 40, 48, 64];
     let sel = DOM.let('select', {
       option: sizes.map((n) => ({ text: 'pixel-' + n, value: n })),
@@ -64,6 +67,7 @@ function create_selections(parentDiv) {
     addSelect(sel);
   }
   {
+    // my.brushSize = 1, 2, 4, 8, 12, 16, 24, 32, 40, 48
     let sizes = [1, 2, 4, 8, 12, 16, 24, 32, 40, 48];
     let sel = DOM.let('select', {
       option: sizes.map((n) => ({ text: 'brush-' + n, value: n })),

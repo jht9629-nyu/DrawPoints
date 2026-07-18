@@ -109,9 +109,9 @@ function step_scan_pixel() {
 function step_scan_walk() {
   my.video_img = null;
   if (!frame_ready()) return;
-  if (!my.scanWalkInited) {
-    init_scan_walk();
-  }
+  // if (!my.scanWalkInited) {
+  //   init_scan_walk();
+  // }
   let nw = width / my.pixelSize;
   let n = min(nw, my.scanLoop);
   // my.scanIndex
@@ -129,13 +129,13 @@ function step_scan_walk() {
   }
 }
 
-function init_scan_walk() {
-  my.layer.clear();
-  my.scanWalkInited = 1;
-  my.scanIndex = 0;
-  my.scanLoop = 1;
-  // { width: 600, height: 400, d: 10 }
-  let spiral = new SpiralWalker({ width, height, d: my.pixelSize });
-  // console.log('spiral', spiral);
-  my.scan_locs = spiral.points();
-}
+// function init_scan_walk() {
+//   my.layer.clear();
+//   my.scanWalkInited = 1;
+//   my.scanIndex = 0;
+//   my.scanLoop = 1;
+//   // { width: 600, height: 400, d: 10 }
+//   let spiral = new SpiralWalker({ width, height, d: my.pixelSize });
+//   // console.log('spiral', spiral);
+//   my.scan_locs = spiral.points();
+// }

@@ -4,9 +4,6 @@
 // let paths = [];
 let currentPath = [];
 let isDrawing = false;
-// let strokeWeightSlider, smoothnessSlider;
-// let strokeWeightSpan, smoothnessSpan;
-// let my.pixelSize = 32;
 let smoothnessValue = 1;
 let controlsDiv;
 let hueOffset = 0;
@@ -18,7 +15,6 @@ let my = {};
 function setup() {
   //
   my.title = '?v=31 ';
-  // Give a little room at bottom for buttons in create_ui
   my.canvas = createCanvas(windowWidth, windowHeight);
 
   my.shapeLabel = 'hex';
@@ -30,7 +26,8 @@ function setup() {
   my.eraseEnabled = 0;
   my.eraseFlag = 0;
   my.jumpWalk = 0;
-  my.aspectWide = 1;
+  my.aspectWide = width > height;
+  console.log('my.aspectWide', my.aspectWide);
   my.downSize = 32;
   my.cameraFacing = 'user';
   my.penAlpha = 255;
@@ -139,13 +136,13 @@ function mouse_onCanvas() {
 
 function check_scanStyle() {
   if (!my.scanFlag) return;
-  if (my.scanStyle == 'spiral') {
-    step_scan_walk();
-  } else if (my.scanStyle == 'line') {
-    step_scan_line();
-  } else if (my.scanStyle == 'pixel') {
-    step_scan_pixel();
-  }
+  // if (my.scanStyle == 'spiral') {
+  //   step_scan_walk();
+  // } else if (my.scanStyle == 'line') {
+  step_scan_line();
+  // } else if (my.scanStyle == 'pixel') {
+  //   step_scan_pixel();
+  // }
 }
 
 // return true to step animation to limit update to my.deltaTimeSeconds
@@ -172,7 +169,7 @@ function clearLayer1() {
   currentPath = [];
   background(0);
   create_layer();
-  init_scan_walk();
+  // init_scan_walk();
 }
 
 function clearLayer2() {

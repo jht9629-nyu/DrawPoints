@@ -12,7 +12,7 @@ select {
   background: #4caf50;
   color: white;
   border: none;
-  padding: 8px 16px;
+  padding: 8px 8px;
   margin: 5px;
   border-radius: 4px;
   cursor: pointer;
@@ -20,8 +20,8 @@ select {
 
 .bottom-right {
   position: fixed;
-  left: 1rem;
-  bottom: 1rem;
+  left: 0.5rem;
+  bottom: 0.5rem;
   width: auto;
   background: rgba(0, 0, 0, 0.8);
   color: white;
