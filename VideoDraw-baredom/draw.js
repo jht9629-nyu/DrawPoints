@@ -12,8 +12,7 @@ function auto_draw_check() {
   if (!isDrawing) {
     start_draw();
     // Seed each new auto path from the last point for continuity.
-    // add_point(lastPoint.x, lastPoint.y, my.colorStyle, my.penStyle, my.drawLayer);
-    add_point(lastPoint.x, lastPoint.y, 'video', 'line', my.drawLayer);
+    add_point(lastPoint.x, lastPoint.y);
     return;
   }
   if (frameCount % 100 == 0) {
@@ -49,7 +48,7 @@ function auto_draw_walk() {
   }
   // console.log('auto_draw_walk x y', x, y, my.frameCount)
   // line --> my.drawLayer not used.
-  add_point(x, y, 'video', 'line', my.drawLayer);
+  add_point(x, y);
 }
 
 function start_draw() {
@@ -72,65 +71,24 @@ function stop_draw() {
   my.frameCount -= 1;
 }
 
-// penStyle == line --> lastPoint added to currentPath
-// penStyle == pixel --> draw pixel to layer
 //
-function add_point(x, y, colorStyle, penStyle, layer) {
-  // console.log('add_point x y colorStyle', x, y, colorStyle, penStyle );
-  set_currentColor(x, y, colorStyle);
-  let strokeColor = currentColor;
+function add_point(x, y, layer = my.drawLayer) {
+  // console.log('add_point x y', x, y );
+  set_currentColor(x, y);
+  let strokeColor = video_color(x, y);
   let weight = my.brushSize;
   weight = weight / 4 + weight * noise(0.1 * my.frameCount + 20000);
-  if (penStyle == 'line') {
-    lastPoint = { x, y, strokeColor, weight, frameCount: my.frameCount };
-    my.frameCount += 1;
-    currentPath.push(lastPoint);
-  } else if (penStyle == 'pixel') {
-    draw_pixel(x, y, layer);
+  lastPoint = { x, y, strokeColor, weight, frameCount: my.frameCount };
+  my.frameCount += 1;
+  currentPath.push(lastPoint);
+}
+
+function set_currentColor(x, y) {
+  if (!my.noiseWalk) {
+    // x = int(random(width));
+    // y = int(random(height));
+    // x = width - x;
+    // y = height - y;
   }
-}
-
-function set_currentColor(x, y, colorStyle) {
-  // my.colorStyle
-  if (colorStyle == 'rainbow') {
-    currentColor = rainbow_color();
-  } else if (colorStyle == 'video') {
-    if (!my.noiseWalk) {
-      // x = int(random(width));
-      // y = int(random(height));
-      // x = width - x;
-      // y = height - y;
-    }
-    currentColor = video_color(x, y);
-  } else if (colorStyle == 'white') {
-    colorMode(RGB, 255);
-    currentColor = color(255, 255, 255, my.penAlpha);
-  } else if (colorStyle == 'red') {
-    colorMode(RGB, 255);
-    currentColor = color(255, 0, 0, my.penAlpha);
-  } else if (colorStyle == 'green') {
-    colorMode(RGB, 255);
-    currentColor = color(0, 255, 0, my.penAlpha);
-  } else if (colorStyle == 'gold') {
-    colorMode(RGB, 255);
-    currentColor = color(255, 255, 0, my.penAlpha);
-  }
-}
-
-// !!@ retire draw_pixel
-function draw_pixel(x, y, layer) {
-  // console.log('draw_pixel x y', x, y, currentColor);
-  x = int(x / my.pixelSize) * my.pixelSize;
-  y = int(y / my.pixelSize) * my.pixelSize;
-  let m = round(my.pixelSize * my.pixelMargin);
-  layer.strokeWeight(0);
-  layer.fill(currentColor);
-  layer.rect(x + m, y + m, my.pixelSize - 2 * m, my.pixelSize - 2 * m);
-}
-
-function rainbow_color() {
-  colorMode(HSB, 360, 100, 100);
-  hueOffset += 1;
-  // !!@ alpha is in 0-255 vs. color alpha param 0-1.0
-  return color(hueOffset % 360, 80, 90, my.penAlpha / 255);
+  currentColor = video_color(x, y);
 }

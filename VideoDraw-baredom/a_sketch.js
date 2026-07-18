@@ -27,7 +27,7 @@ function setup() {
   my.eraseFlag = 0;
   my.jumpWalk = 0;
   my.aspectWide = width > height;
-  console.log('my.aspectWide', my.aspectWide);
+  // console.log('my.aspectWide', my.aspectWide);
   my.downSize = 32;
   my.cameraFacing = 'user';
   my.penAlpha = 255;
@@ -60,15 +60,11 @@ function init_vars() {
   my.deltaTimeSeconds = 0;
   my.pixelMargin = 0.1;
   my.frameCount = 0;
-  // my.noiseSeed = 20260712;
-  // my.noise = new Noise(my.noiseSeed);
   my.autoDrawOn = false;
   lastPoint = { x: width / 2, y: height / 2 };
   my.colorStyle = 'video';
   my.penStyle = 'line';
   my.scanStyle = 'line';
-  // my.scanStyle = 'spiral';
-  // my.scanStyle = 'none';
   my.pixelSizeLabel = 'thick';
   my.scanX = 0;
   my.scanY = 0;
@@ -136,13 +132,7 @@ function mouse_onCanvas() {
 
 function check_scanStyle() {
   if (!my.scanFlag) return;
-  // if (my.scanStyle == 'spiral') {
-  //   step_scan_walk();
-  // } else if (my.scanStyle == 'line') {
   step_scan_line();
-  // } else if (my.scanStyle == 'pixel') {
-  //   step_scan_pixel();
-  // }
 }
 
 // return true to step animation to limit update to my.deltaTimeSeconds
