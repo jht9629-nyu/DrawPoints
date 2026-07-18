@@ -19,7 +19,7 @@ let pathsMax = 1000;
 let my = {};
 
 function setup() {
-  my.title = '?v=31 Drag mouse to draw smooth Bézier curves';
+  my.title = '?v=32 Drag mouse to draw smooth Bézier curves';
   my.canvas = createCanvas(windowWidth, windowHeight - 170);
 
   colorMode(RGB, 255);

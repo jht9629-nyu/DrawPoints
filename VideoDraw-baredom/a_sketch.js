@@ -14,7 +14,7 @@ let my = {};
 
 function setup() {
   //
-  my.title = '?v=31 ';
+  my.title = '?v=32 ';
   my.canvas = createCanvas(windowWidth, windowHeight);
 
   my.shapeLabel = 'hex';
