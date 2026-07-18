@@ -1,6 +1,26 @@
 //
 
 function create_ui() {
+  // !!@ Failes
+  // const CSS = {
+  //   'button,select': {
+  //     background: '#4CAF50',
+  //     color: 'white',
+  //     border: 'none',
+  //     padding: '8px 16px',
+  //     margin: '5px',
+  //     borderRadius: '4px',
+
+  //     cursor: 'pointer',
+  //   },
+  // };
+  // DOM.set({
+  //   css: CSS,
+  // });
+
+  // !!@ try external css:
+  // /Users/jht2/Documents/projects/repos/W-C-Art-Scroller/style.css
+
   // Main controls container
   controlsDiv = DOM.let('div', {
     // Position below the canvas
@@ -18,6 +38,17 @@ function create_ui() {
   // Title
   controlsDiv.append(DOM.let('span', { text: my.title }));
 
+  // let innerControl = DOM.let('div', {
+  //   background: '#4CAF50',
+  //   color: 'white',
+  //   border: 'none',
+  //   padding: '8px 16px',
+  //   margin: '5px',
+  //   borderRadius: '4px',
+  //   cursor: 'pointer',
+  // });
+  // controlsDiv.append(innerControl);
+
   create_selections(controlsDiv);
 
   create_buttons(controlsDiv);
@@ -27,7 +58,7 @@ function create_ui() {
 
 function create_selections(parentDiv) {
   function addSelect(sel) {
-    add_buttonStyle(sel);
+    // add_buttonStyle(sel);
     parentDiv.append(sel);
   }
   {
@@ -130,7 +161,7 @@ function add_buttonStyle(elt) {
 function create_buttons(parentDiv) {
   function addButton(text, onclick) {
     let btn = DOM.let('button', { text, onclick });
-    add_buttonStyle(btn);
+    // add_buttonStyle(btn);
     parentDiv.append(btn);
     return btn;
   }

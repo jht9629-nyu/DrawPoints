@@ -5,3 +5,13 @@ body {
 canvas {
   display: block;
 }
+button,
+select {
+  background: #4caf50;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  margin: 5px;
+  border-radius: 4px;
+  cursor: pointer;
+}
