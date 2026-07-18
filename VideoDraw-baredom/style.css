@@ -2,9 +2,11 @@ body {
   margin: 0;
   padding: 0;
 }
+
 canvas {
   display: block;
 }
+
 button,
 select {
   background: #4caf50;
@@ -14,4 +16,29 @@ select {
   margin: 5px;
   border-radius: 4px;
   cursor: pointer;
+}
+/*
+    // Position below the canvas
+    position: 'absolute',
+    left: '10px',
+    top: height - 80 + 'px',
+    background: 'rgba(0,0,0,0.8)',
+    color: 'white',
+    padding: '15px',
+    borderRadius: '8px',
+    fontFamily: 'Arial, sans-serif',
+*/
+
+.bottom-right {
+  position: fixed;
+  left: 1rem;
+  bottom: 1rem;
+  /* height: 80px; */
+  width: auto;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 4px;
+  border-radius: 8px;
+  font-family: Arial, sans-serif;
+  z-index: 10;
 }

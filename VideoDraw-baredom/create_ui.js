@@ -24,14 +24,15 @@ function create_ui() {
   // Main controls container
   controlsDiv = DOM.let('div', {
     // Position below the canvas
-    position: 'absolute',
-    left: '10px',
-    top: height - 80 + 'px',
-    background: 'rgba(0,0,0,0.8)',
-    color: 'white',
-    padding: '15px',
-    borderRadius: '8px',
-    fontFamily: 'Arial, sans-serif',
+    // position: 'absolute',
+    // left: '10px',
+    // top: height - 80 + 'px',
+    // background: 'rgba(0,0,0,0.8)',
+    // color: 'white',
+    // padding: '15px',
+    // borderRadius: '8px',
+    // fontFamily: 'Arial, sans-serif',
+    class: 'bottom-right',
   });
   document.body.append(controlsDiv);
 
@@ -146,17 +147,17 @@ function create_selections(parentDiv) {
 let g_event;
 let g_sel;
 
-function add_buttonStyle(elt) {
-  elt.set({
-    background: '#4CAF50',
-    color: 'white',
-    border: 'none',
-    padding: '8px 16px',
-    margin: '5px',
-    borderRadius: '4px',
-    cursor: 'pointer',
-  });
-}
+// function add_buttonStyle(elt) {
+//   elt.set({
+//     background: '#4CAF50',
+//     color: 'white',
+//     border: 'none',
+//     padding: '8px 16px',
+//     margin: '5px',
+//     borderRadius: '4px',
+//     cursor: 'pointer',
+//   });
+// }
 
 function create_buttons(parentDiv) {
   function addButton(text, onclick) {
