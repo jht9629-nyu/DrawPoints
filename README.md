@@ -3,7 +3,7 @@
 - Drawing with mouse and touch series
 
 - global search and replace to workaround caching in github pages
-- ?v=31
+- ?v=23
 
 ## [DrawPoints pages](https://jht9629-nyu.github.io/DrawPoints/DrawPoints/)
 
@@ -40,4 +40,5 @@
 // BareDOM test
 https://baredom.org/
 https://github.com/lenincompres/baredom
+
 ```

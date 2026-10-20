@@ -1,60 +1,7 @@
 notes.txt
 
 # --
-2026-07-16 20:01:41
 
-what is best skill to add to verify javascript code in this project
-/run-skill-generator
-
-For this project I'd add a project run skill via /run-skill-generator, not a
-linting skill — this is a plain static p5.js sketch with no package.json/build
-step and no node in this environment, so ESLint/tsc-style syntax checking isn't
-available here anyway (I had to fall back to osascript -l JavaScript just to
-eval-check syntax just now). A run skill would capture the parts that actually
-took work today: serving the folder (python3 -m http.server, since createCapture
-needs localhost/HTTPS) and noting that camera-facing behavior needs a real
-browser + real device, not headless automation.
-
-The tradeoff: it verifies the app launches cleanly, not full runtime
-correctness of camera switching — that still needs a human eyeball on a real
-device with two cameras. Want me to generate that skill now?
-
-
-2026-07-16 19:45:42
-
-and select ui option to chose between front facing and back facing camera in create_capture
-
-2026-07-16 19:29:16
-
->> provided screen shoots to fix skipped line in pixel size 32 and 16
-
-Found and fixed the bug. In step_scan_draw's hex branch, 
-odd-column rows computed their row index as round((y - rowOffset) / rowHeight), 
-subtracting a half-row before rounding. Since y (from the accumulating my.scanY += yStep) 
-drifts by tiny float error around each exact row boundary, 
-that subtraction put the rounding right on a tie (k - 0.5), 
-and any negative drift flipped it down a row — skipping that row entirely for odd columns. 
-I verified numerically that this reproduces for pixelSize 32 and 16 
-(and others) and always skips 1-3 rows over a typical canvas height.
-
-The fix (step_scan.js:63-72): round the unshifted y / rowHeight 
-first (always near a full integer with a safe margin), 
-then add the half-row offset afterward instead of before rounding. 
-Confirmed via simulation this produces zero missing rows across all tested pixel sizes.
-
-
-2026-07-16 11:31:25
-
-claude for triangle shape
-
-# --
-2026-07-13 17:38:30
-DONE:
-- Brush-size
-- use BareDOM.js
-
-
-# --
 2026-07-13 10:45:59
 
 convert create_ui.js in VIdeoDraw to use baredom as documented in https://github.com/lenincompres/baredom
@@ -67,4 +14,3 @@ a_sketch.js — updated the two .html(...) calls on the auto/erase buttons to .s
 Verified end-to-end with a headless Playwright run against a local server: the controls div renders with correct styling/position, all three selects and four buttons are created, changing selects correctly updates my.colorStyle/my.scanStyle/my.sizeStyle/strokeWeightValue, and button clicks correctly toggle label text — no page errors introduced.
 
 2026-07-13 10:51:41
-
